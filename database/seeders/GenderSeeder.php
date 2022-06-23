@@ -9,7 +9,7 @@ class GenderSeeder extends Seeder
 {
     public function run()
     {
-        Gender::create([ 'label' => 'Laki-laki' ]);
-        Gender::create([ 'label' => 'Perempuan' ]);
+        Gender::create([ 'id' => 1, 'label' => 'Laki-laki' ]);
+        Gender::create([ 'id' => 2, 'label' => 'Perempuan' ]);
     }
 }

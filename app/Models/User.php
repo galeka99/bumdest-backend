@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,12 +11,22 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'phone', 'description', 'address', 'subdistrict_id', 'gender_id', 'role_id'];
-    protected $hidden = ['password', 'remember_token'];
+    protected $fillable = ['name', 'email', 'password', 'phone', 'balance', 'address', 'postal_code', 'district_id', 'gender_id', 'role_id', 'user_status_id', 'bumdes_id', 'verified'];
+    protected $hidden = ['password', 'district_id', 'gender_id', 'role_id', 'user_status_id', 'bumdes_id', 'remember_token'];
+    protected $with = ['gender', 'role', 'user_status', 'bumdes'];
+    protected $appends = ['location'];
 
-    public function subdistrict()
+    public function getLocationAttribute()
     {
-        return $this->belongsTo(Subdistrict::class, 'subdistrict_id', 'id');
+        $district = $this->belongsTo(District::class, 'district_id', 'id')->getResults();
+        return [
+            'district_id' => $district->id,
+            'district_name' => $district->name,
+            'city_id' => $district->city->id,
+            'city_name' => $district->city->name,
+            'province_id' => $district->city->province->id,
+            'province_name' => $district->city->province->name,
+        ];
     }
 
     public function gender()
@@ -28,5 +37,20 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    public function user_status()
+    {
+        return $this->belongsTo(UserStatus::class, 'user_status_id', 'id');
+    }
+
+    public function bumdes()
+    {
+        return $this->belongsTo(Bumdes::class, 'bumdes_id', 'id');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'user_id', 'id');
     }
 }

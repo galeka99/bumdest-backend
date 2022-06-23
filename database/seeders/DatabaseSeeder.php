@@ -11,10 +11,15 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProvinceSeeder::class,
             CitySeeder::class,
-            SubdistrictSeeder::class,
+            DistrictSeeder::class,
             GenderSeeder::class,
             RoleSeeder::class,
+            UserStatusSeeder::class,
             UserSeeder::class,
+            DepositStatusSeeder::class,
+            PaymentMethodSeeder::class,
+            ProjectStatusSeeder::class,
+            InvestmentStatusSeeder::class,
         ]);
     }
 }
