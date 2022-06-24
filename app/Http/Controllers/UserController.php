@@ -33,6 +33,12 @@ class UserController extends Controller
         return redirect('/dashboard');
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
+
     public function api_login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -81,10 +87,5 @@ class UserController extends Controller
             'error' => null,
             'data' => $token,
         ]);
-    }
-
-    public function add_admin(Request $request)
-    {
-        return response()->json(['message' => 'Berhasil menambahkan admin'], 200);
     }
 }
