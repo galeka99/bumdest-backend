@@ -1,8 +1,13 @@
 @php
   $total = $data->total();
   $count = $data->count();
-  $mod = $total % $count;
-  $total_pages = ($total - $mod) / $count;
+  if ($count !== 0) {
+    $mod = $total % $count;
+    $total_pages = ($total - $mod) / $count;
+  } else {
+    $mod = 0;
+    $total_pages = 1;
+  }
   if ($mod !== 0) $total_pages += 1;
 @endphp
 
