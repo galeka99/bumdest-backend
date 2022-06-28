@@ -13,8 +13,13 @@ class User extends Authenticatable
 
     protected $fillable = ['name', 'email', 'password', 'phone', 'balance', 'address', 'postal_code', 'district_id', 'gender_id', 'role_id', 'user_status_id', 'bumdes_id', 'verified'];
     protected $hidden = ['password', 'district_id', 'gender_id', 'role_id', 'user_status_id', 'bumdes_id', 'remember_token'];
-    protected $with = ['gender', 'role', 'user_status', 'bumdes'];
-    protected $appends = ['location'];
+    protected $appends = ['gender', 'location'];
+    
+    public function getGenderAttribute()
+    {
+        $gender = $this->belongsTo(Gender::class, 'gender_id', 'id')->getResults();
+        return $gender->label;
+    }
 
     public function getLocationAttribute()
     {
