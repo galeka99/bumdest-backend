@@ -10,4 +10,5 @@ class PaymentMethod extends Model
     use HasFactory;
 
     protected $fillable = ['label'];
+    protected $hidden = ['created_at', 'updated_at'];
 }
