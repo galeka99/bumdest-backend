@@ -22,11 +22,6 @@ class ProjectController extends Controller
         return view('dashboard.products.index', compact('projects'));
     }
 
-    public function detail(Request $request, int $id)
-    {
-        //
-    }
-
     public function add(Request $request)
     {
         $request->validate([
@@ -64,13 +59,13 @@ class ProjectController extends Controller
             ]);
         }
 
-        return redirect('/products')->with('success', 'Berhasil menambahkan produk');
+        return redirect('/products')->with('success', 'Product added successfully');
     }
 
     public function edit(Request $request, int $id)
     {
         $product = Project::where('id', '=', $id)->where('bumdes_id', '=', auth()->user()->bumdes->id)->first();
-        if (!$product) return redirect('/products')->with('error', 'Produk tidak ditemukan');
+        if (!$product) return redirect('/products')->with('error', 'Product not found');
 
         $statuses = ProjectStatus::all();
         return view('dashboard.products.edit', compact(['product', 'statuses']));
@@ -90,7 +85,7 @@ class ProjectController extends Controller
         ]);
 
         $product = Project::where('id', '=', $id)->where('bumdes_id', '=', auth()->user()->bumdes->id)->first();
-        if (!$product) return redirect('/products')->with('error', 'Produk tidak ditemukan');
+        if (!$product) return redirect('/products')->with('error', 'Product not found');
 
         $product->title = $request->post('title', $product->title);
         $product->description = $request->post('description', $product->description);
@@ -113,19 +108,19 @@ class ProjectController extends Controller
             ]);
         }
 
-        return redirect('/products')->with('success', 'Berhasil memperbarui produk');
+        return redirect('/products')->with('success', 'Product updated successfully');
     }
 
     public function delete_proposal(int $id)
     {
         $product = Project::where('id', '=', $id)->where('bumdes_id', '=', auth()->user()->bumdes->id)->first();
-        if (!$product) return redirect('/products')->with('error', 'Produk tidak ditemukan');
+        if (!$product) return redirect('/products')->with('error', 'Product not found');
 
         Helper::deleteFile($product->proposal_path);
         $product->proposal_path = null;
         $product->save();
 
-        return redirect('products/'.$id)->with('success', 'Berhasil menghapus proposal');
+        return redirect('products/'.$id)->with('success', 'Proposal deleted successfully');
     }
 
     public function delete_image(Request $request, int $id)
@@ -133,13 +128,13 @@ class ProjectController extends Controller
         $request->validate(['image_id' => 'required|numeric']);
 
         $product = Project::where('id', '=', $id)->where('bumdes_id', '=', auth()->user()->bumdes->id)->first();
-        if (!$product) return redirect('/products')->with('error', 'Produk tidak ditemukan');
+        if (!$product) return redirect('/products')->with('error', 'Product not found');
         
         $image = ProjectImage::where('id', '=', $request->post('image_id'))->where('project_id', '=', $product->id)->first();
-        if (!$image) return redirect('products/'.$id)->with('error', 'Gambar tidak ditemukan');
+        if (!$image) return redirect('products/'.$id)->with('error', 'Image not found');
 
         Helper::deleteFile($image->image_path);
         $image->delete();
-        return redirect('products/'.$id)->with('success', 'Berhasil menghapus gambar');
+        return redirect('products/'.$id)->with('success', 'Image deleted successfully');
     }
 }

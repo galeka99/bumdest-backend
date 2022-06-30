@@ -9,13 +9,13 @@
     @include('component.alert')
     <div class="input-group mb-2">
       <span class="input-group-text mdi mdi-at"></span>
-      <input type="text" class="form-control" name="email" placeholder="Alamat Email" required autofocus>
+      <input type="text" class="form-control" name="email" placeholder="Email Address" required autofocus>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text mdi mdi-lock"></span>
-      <input type="password" class="form-control" name="password" placeholder="Kata Sandi" required>
+      <input type="password" class="form-control" name="password" placeholder="Password" required>
     </div>
-    <button type="submit" class="btn btn-sm btn-primary">Masuk</button>
+    <button type="submit" class="btn btn-sm btn-primary">Log In</button>
   </form>
 </div>
 @endsection

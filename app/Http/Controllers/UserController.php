@@ -20,10 +20,10 @@ class UserController extends Controller
         $password = $request->post('password');
 
         $user = User::where('email', $email)->first();
-        if (!$user) return redirect('/login')->with('error', 'User tidak ditemukan');
+        if (!$user) return redirect('/login')->with('error', 'User not found');
 
         if (!Hash::check($password, $user->password))
-            return redirect('/login')->with('error', 'Kata sandi salah');
+            return redirect('/login')->with('error', 'Wrong password');
         
         Auth::login($user, true);
         return redirect('/dashboard');
