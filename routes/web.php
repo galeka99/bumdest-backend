@@ -9,7 +9,9 @@ use App\Http\Controllers\WithdrawController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function() {
-  Route::view('/', 'index');
+  Route::get('/', function () {
+    return redirect('/login');
+  });
   Route::view('/login', 'login');
   Route::post('/login', [UserController::class, 'login']);
 });
