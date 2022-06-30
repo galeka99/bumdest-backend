@@ -6,6 +6,7 @@ use App\Http\Helper;
 use App\Models\Investment;
 use App\Models\Project;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,6 +16,8 @@ class ProjectApiController extends Controller
     {
         $limit = intval($request->input('limit', '25'));
         $projects = Project::with(['images', 'bumdes:id,name,district_id', 'status'])
+            ->whereDate('offer_start_date', '<=', Carbon::now())
+            ->whereDate('offer_end_date', '>=', Carbon::now())
             ->orderBy('created_at', 'DESC')
             ->paginate($limit);
         $hidden_fields = ['proposal'];
