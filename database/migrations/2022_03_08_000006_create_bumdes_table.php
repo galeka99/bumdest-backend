@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
+            $table->unsignedBigInteger('balance')->default(0);
             $table->foreignId('district_id')->constrained('districts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->longText('address');
             $table->string('postal_code');

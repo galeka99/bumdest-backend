@@ -9,7 +9,7 @@ class Bumdes extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'district_id', 'address', 'postal_code', 'description'];
+    protected $fillable = ['name', 'phone', 'balance', 'district_id', 'address', 'postal_code', 'description'];
     protected $hidden = ['district_id'];
     protected $appends = ['location'];
 

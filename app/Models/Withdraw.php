@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Deposit extends Model
+class Withdraw extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['amount', 'payment_method_id', 'payment_code', 'deposit_status_id', 'user_id', 'bumdes_id'];
-    protected $hidden = ['payment_method_id', 'deposit_status_id', 'user_id', 'bumdes_id'];
+    protected $fillable = ['amount', 'payment_method_id', 'withdraw_status_id', 'user_id', 'bumdes_id'];
+    protected $hidden = ['payment_method_id', 'withdraw_status_id', 'user_id', 'bumdes_id'];
 
     public function method()
     {
@@ -19,7 +19,7 @@ class Deposit extends Model
 
     public function status()
     {
-        return $this->belongsTo(DepositStatus::class, 'deposit_status_id', 'id');
+        return $this->belongsTo(DepositStatus::class, 'withdraw_status_id', 'id');
     }
 
     public function user()

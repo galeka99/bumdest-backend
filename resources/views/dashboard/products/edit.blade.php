@@ -1,16 +1,16 @@
 @extends('template.dashboard')
-@section('title', 'Ubah Produk')
+@section('title', 'Update Product')
 @section('content')
 <form id="add" action="{{ url('products/'.$product->id) }}" method="POST" enctype="multipart/form-data">
   <div class="flex flex-col p-4">
-    <span class="text-xl text-blue-600 font-bold uppercase mb-3">Ubah Produk</span>
+    <span class="text-xl text-blue-600 font-bold uppercase mb-3">Update Product</span>
       @include('component.alert')
       <div class="flex flex-col bg-white w-full rounded-lg shadow p-3 mb-3">
         @csrf
         @method('PUT')
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="title">Judul Produk</label>
+            <label for="title">Product Title</label>
             <span class="text-red-600">*</span>
           </div>
           <div class="w-3/4">
@@ -19,7 +19,7 @@
         </div>
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="description">Deskripsi</label>
+            <label for="description">Description</label>
             <span class="text-red-600">*</span>
           </div>
           <div class="w-3/4">
@@ -28,7 +28,7 @@
         </div>
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="end_offer">Status Produk</label>
+            <label for="end_offer">Product Status</label>
             <span class="text-red-600">*</span>
           </div>
           <div class="w-3/4">
@@ -41,7 +41,18 @@
         </div>
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="target">Target Investasi</label>
+            <label for="current">Current Invest Amount</label>
+          </div>
+          <div class="w-3/4">
+            <div class="input-group">
+              <span class="input-group-text">Rp </span>
+              <input type="number" id="current" name="current" class="form-control form-control-sm" value="{{ $product->current_invest }}" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row mb-3">
+          <div class="w-1/4">
+            <label for="target">Target Invest Amount</label>
             <span class="text-red-600">*</span>
           </div>
           <div class="w-3/4">
@@ -53,7 +64,7 @@
         </div>
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="start_offer">Tgl Mulai Penawaran</label>
+            <label for="start_offer">Offer Start Date</label>
             <span class="text-red-600">*</span>
           </div>
           <div class="w-3/4">
@@ -62,7 +73,7 @@
         </div>
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="end_offer">Tgl Akhir Penawaran</label>
+            <label for="end_offer">Offer End Date</label>
             <span class="text-red-600">*</span>
           </div>
           <div class="w-3/4">
@@ -71,7 +82,7 @@
         </div>
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="proposal">Berkas Proposal</label>
+            <label for="proposal">Proposal Attachment</label>
           </div>
           <div class="w-3/4">
             <input type="file" id="proposal" name="proposal" class="form-control form-control-sm" accept="application/pdf">
@@ -81,14 +92,14 @@
           <div class="flex flex-row mb-3">
             <div class="w-1/4"></div>
             <div class="flex flex-row items-start w-3/4 gap-x-2">
-              <a href="{{ $product->proposal }}" target="_blank" class="btn btn-sm btn-primary"><i class="mdi mdi-eye mr-1"></i> Lihat Proposal</a>
-              <button type="button" class="btn btn-sm btn-danger" onclick="deleteProposal()"><i class="mdi mdi-delete mr-1"></i> Hapus Proposal</button>
+              <a href="{{ $product->proposal }}" target="_blank" class="btn btn-sm btn-primary"><i class="mdi mdi-eye mr-1"></i> View Proposal</a>
+              <button type="button" class="btn btn-sm btn-danger" onclick="deleteProposal()"><i class="mdi mdi-delete mr-1"></i> Delete Proposal</button>
             </div>
           </div>
         @endif
         <div class="flex flex-row mb-3">
           <div class="w-1/4">
-            <label for="images">Gambar Produk</label>
+            <label for="images">Product Images</label>
           </div>
           <div class="w-3/4">
             <input type="file" id="images" name="images[]" class="form-control form-control-sm" accept="image/*" multiple>
@@ -99,16 +110,16 @@
             <div class="relative w-full border border-gray-600">
               <img src="{{ $image->url }}" alt="" class="w-full h-auto">
               <div class="absolute bottom-3 left-3 gap-x-3">
-                <a href="{{ $image->url }}" target="_blank" class="btn btn-sm btn-primary"><i class="mdi mdi-eye mr-1"></i>Lihat</a>
-                <button type="button" class="btn btn-sm btn-danger" onclick="deleteImage({{ $image->id }})"><i class="mdi mdi-delete mr-1"></i>Hapus</button>
+                <a href="{{ $image->url }}" target="_blank" class="btn btn-sm btn-primary"><i class="mdi mdi-eye mr-1"></i>View</a>
+                <button type="button" class="btn btn-sm btn-danger" onclick="deleteImage({{ $image->id }})"><i class="mdi mdi-delete mr-1"></i>Delete</button>
               </div>
             </div>
           @endforeach
         </div>
       </div>
       <div class="flex flex-row justify-between">
-        <button class="btn btn-sm btn-primary" onclick="window.history.back()"><i class="mdi mdi-chevron-double-left mr-1"></i> Kembali</button>
-        <button type="submit" class="btn btn-sm btn-success"><i class="mdi mdi-content-save mr-1"></i> Simpan</button>
+        <a href="{{ url('products') }}" class="btn btn-sm btn-primary"><i class="mdi mdi-chevron-double-left mr-1"></i> Back</a>
+        <button type="submit" class="btn btn-sm btn-success"><i class="mdi mdi-content-save mr-1"></i> Save</button>
       </div>
     </div>
   </form>
@@ -124,11 +135,11 @@
   <script>
     async function deleteProposal() {
       const result = await Swal.fire({
-        text: 'Anda yakin ingin menghapus gambar ini?',
+        text: 'Are you sure want to delete this proposal?',
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonText: 'Hapus',
-        cancelButtonText: 'Batal',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
         confirmButtonColor: 'rgb(220 38 38)',
       });
 
@@ -138,11 +149,11 @@
 
     async function deleteImage(id) {
       const result = await Swal.fire({
-        text: 'Anda yakin ingin menghapus gambar ini?',
+        text: 'Are you sure want to delete this image?',
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonText: 'Hapus',
-        cancelButtonText: 'Batal',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
         confirmButtonColor: 'rgb(220 38 38)',
       });
 

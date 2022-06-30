@@ -8,12 +8,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('deposits', function (Blueprint $table) {
+        Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('amount')->default(0);
             $table->foreignId('payment_method_id')->default(1)->constrained('payment_methods')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('payment_code')->default('-');
-            $table->foreignId('deposit_status_id')->default(1)->constrained('deposit_statuses')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('withdraw_status_id')->default(1)->constrained('deposit_statuses')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('bumdes_id')->nullable()->constrained('bumdes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
@@ -22,6 +21,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('deposits');
+        Schema::dropIfExists('withdraws');
     }
 };

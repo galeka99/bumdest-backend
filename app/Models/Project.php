@@ -11,7 +11,7 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'description', 'invest_target', 'offer_start_date', 'offer_end_date', 'proposal_path', 'bumdes_id', 'status_id'];
-    protected $hidden = ['bumdes_id', 'status_id'];
+    protected $hidden = ['proposal_path', 'bumdes_id', 'status_id'];
     protected $with = ['images', 'bumdes', 'status'];
     protected $appends = ['current_invest', 'proposal'];
 

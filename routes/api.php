@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\DepositApiController;
+use App\Http\Controllers\InvestmentApiController;
+use App\Http\Controllers\ProjectApiController;
 use App\Http\Controllers\UserApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +26,17 @@ Route::prefix('v1')->group(function() {
       Route::get('detail/{id}', [DepositApiController::class, 'detail']);
     });
 
+    // PRODUCT
+    Route::prefix('product')->group(function() {
+      Route::get('newest', [ProjectApiController::class, 'newest']);
+      Route::get('detail/{id}', [ProjectApiController::class, 'detail']);
+      Route::post('invest', [ProjectApiController::class, 'invest']);
+    });
+
+    // INVESTMENT
+    Route::prefix('investment')->group(function() {
+      Route::get('/', [InvestmentApiController::class, 'list']);
+      Route::get('/{id}', [InvestmentApiController::class, 'detail']);
+    });
   });
 });

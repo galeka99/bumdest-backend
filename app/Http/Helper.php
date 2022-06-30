@@ -29,7 +29,7 @@ class Helper
     return URL::to('public/' . $url);
   }
 
-  public static function paginate($paginator)
+  public static function paginate($paginator, $hidden_fields = [])
   {
     $totalPage = (($paginator->total() - ($paginator->total() % $paginator->perPage())) / $paginator->perPage()) + 1;
     $result = [
@@ -38,7 +38,7 @@ class Helper
       'total_page' => $totalPage,
       'count' => $paginator->count(),
       'total' => $paginator->total(),
-      'data' => $paginator->items(),
+      'data' => $paginator->makeHidden($hidden_fields),
     ];
     return $result;
   }

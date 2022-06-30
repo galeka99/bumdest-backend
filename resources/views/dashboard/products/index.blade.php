@@ -2,20 +2,20 @@
 @section('title', 'Produk')
 @section('content')
   <div class="flex flex-col p-4">
-    <span class="text-xl text-blue-600 font-bold uppercase mb-3">Produk</span>
+    <span class="text-xl text-blue-600 font-bold uppercase mb-3">Product</span>
     @include('component.alert')
     <div class="flex flex-col bg-white w-full rounded-lg shadow p-3 mb-3">
       <table class="table table-striped">
         <thead class="font-bold">
           <tr>
             <td>#</td>
-            <td>Nama Produk</td>
-            <td>Tgl Mulai</td>
-            <td>Tgl Selesai</td>
-            <td>Terkumpul</td>
+            <td>Product Name</td>
+            <td>Start Date</td>
+            <td>End Date</td>
+            <td>Collected</td>
             <td>Target</td>
             <td>Status</td>
-            <td>Aksi</td>
+            <td>Action</td>
           </tr>
         </thead>
         <tbody>
@@ -41,14 +41,19 @@
               <td><a href="{{ url('products/'.$product->id) }}" class="text-sm text-white bg-blue-500 no-underline hover:bg-blue-600 rounded py-1 px-3"><i class="mdi mdi-magnify-plus-outline"></i> Detail</a></td>
             </tr>
           @endforeach
+          @if ($projects->total() == 0)
+            <tr>
+              <td colspan="8" class="text-center text-sm text-secondary uppercase">No Products Yet</td>
+            </tr>
+          @endif
           <caption>
-            <span class="text-sm text-gray-400">Menampilkan <strong>{{ $projects->firstItem() }}</strong> - <strong>{{ $projects->firstItem() }}</strong> dari total <strong>{{ $projects->total() }}</strong></span>
+            <span class="text-sm text-gray-400">Showing <strong>{{ $projects->firstItem() ?: 0 }}</strong> - <strong>{{ $projects->lastItem() ?: 0 }}</strong> from total <strong>{{ $projects->total() }}</strong></span>
           </caption>
         </tbody>
       </table>
     </div>
     <div class="flex flex-row justify-between">
-      <a href="{{ url('/products/add') }}" class="btn btn-sm btn-success"><i class="mdi mdi-plus-circle mr-1"></i> Produk Baru</a>
+      <a href="{{ url('/products/add') }}" class="btn btn-sm btn-success"><i class="mdi mdi-plus-circle mr-1"></i> Add New Product</a>
       <div class="flex flex-row">@include('component.paginator', ['data' => $projects])</div>
     </div>
   </div>
