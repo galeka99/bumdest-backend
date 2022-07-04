@@ -19,5 +19,5 @@ RUN composer install --optimize-autoloader --no-interaction --no-progress
 RUN npm install
 RUN npm run production
 
-COPY ./nginx.conf /etc/nginx/conf.d/website.conf
+COPY ./nginx.conf /etc/nginx/conf.d/bumdest.conf
 RUN rm -rf /etc/nginx/conf.d/default.conf
