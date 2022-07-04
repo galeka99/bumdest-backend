@@ -13,10 +13,12 @@ COPY --from=node_stage /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node_stage /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
-WORKDIR /var/www/html
-COPY . /var/www/html
-RUN rm -rf /var/www/html/vendor
-RUN rm -rf /var/www/html/.env
+WORKDIR /app
+COPY . /app
+RUN rm -rf /app/vendor
+RUN rm -rf /app/.env
 RUN composer install
 RUN npm install
 RUN npm run production
+
+COPY --chown=nginx /app /var/www/html
