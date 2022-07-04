@@ -2,13 +2,11 @@ version: '3.7'
 
 services:
   bumdest-api:
+    image: docker.io/bitnami/laravel:9
     container_name: bumdest-api
-    build:
-      context: .
-      dockerfile: Dockerfile
     restart: unless-stopped
     ports: 
-      - '8888:8000'
+      - '8000:8000'
     environment:
       - APP_NAME=Bumdest
       - APP_ENV=production
@@ -22,6 +20,8 @@ services:
       - DB_DATABASE=bumdest
       - DB_USERNAME=root
       - DB_PASSWORD=root
+    volumes:
+      - './:/app'
   bumdest-db:
     image: mysql:8.0
     container_name: bumdest-db
