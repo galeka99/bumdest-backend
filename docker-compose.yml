@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  bumdest-api:
+    container_name: bumdest-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports: 
+      - '8888:8000'
+    environment:
+      - APP_NAME=Bumdest
+      - APP_ENV=production
+      - APP_KEY=base64:AiowrBTOa18nb9vXvfUF5DG/uDbJjUPd8yoo9NxhLiE=
+      - APP_DEBUG=false
+      - APP_URL=https://gals.my.id
+      - DB_CONNECTION=mysql
+      - DB_HOST=bumdest-db
+      - DB_PORT=3306
+      - DB_DATABASE=bumdest
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+  bumdest-db:
+    image: mysql:8.0
+    container_name: bumdest-db
+    restart: unless-stopped
+    cap_add:
+      - SYS_NICE
+    environment:
+      - MYSQL_DATABASE=bumdest
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
