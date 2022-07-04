@@ -18,3 +18,6 @@ RUN rm -rf /usr/share/nginx/html/.env
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 RUN npm install
 RUN npm run production
+
+COPY ./nginx.conf /etc/nginx/conf.d/website.conf
+RUN rm -rf /etc/nginx/conf.d/default.conf
