@@ -14,6 +14,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # INSTALL PHP EXTENSIONS
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
+# SET TIMEZONE
+RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && echo 'Asia/Jakarta' > /etc/timezone
+
 # COMBINING NODE
 COPY --from=node_stage /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node_stage /usr/local/bin/node /usr/local/bin/node

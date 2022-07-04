@@ -15,6 +15,7 @@ services:
       - APP_KEY=base64:AiowrBTOa18nb9vXvfUF5DG/uDbJjUPd8yoo9NxhLiE=
       - APP_DEBUG=false
       - APP_URL=https://bumdest.gals.my.id
+      - ASSET_URL=https://bumdest.gals.my.id
       - DB_CONNECTION=mysql
       - DB_HOST=bumdest-db
       - DB_PORT=3306
