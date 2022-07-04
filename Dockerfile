@@ -20,6 +20,8 @@ COPY . /app
 RUN rm -rf /app/vendor
 RUN rm -rf /app/.env
 RUN composer install
+RUN npm install
+RUN npm run production
 
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 EXPOSE 8000
