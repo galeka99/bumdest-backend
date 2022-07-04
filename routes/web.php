@@ -7,14 +7,6 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
-
-$app_url = config("app.url");
-if (app()->environment('prod') && !empty($app_url)) {
-    URL::forceRootUrl($app_url);
-    $schema = explode(':', $app_url)[0];
-    URL::forceScheme($schema);
-}
 
 Route::middleware('guest')->group(function() {
   Route::get('/', function () {
