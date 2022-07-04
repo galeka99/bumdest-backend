@@ -15,6 +15,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 RUN rm -rf /var/www/html/vendor
 RUN rm -rf /var/www/html/.env
+RUN chmod 777 -R storage/
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 RUN npm install
 RUN npm run production
