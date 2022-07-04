@@ -3,7 +3,7 @@ FROM composer:latest as composer_stage
 # GET LATEST NODEJS
 FROM node:latest as node_stage
 # GET PHP 8.1 IMAGE
-FROM php:8.1-fpm-alpine
+FROM php:8.1-fpm
 
 # INSTALLING DEPENDENCIES
 RUN apt-get update && apt-get install -y git curl libpng-dev libonig-dev libxml2-dev zip unzip
@@ -25,10 +25,13 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 # GET LATEST COMPOSER
 COPY --from=composer_stage /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
-COPY . /var/www/html
-RUN rm -rf /var/www/html/vendor
-RUN rm -rf /var/www/html/.env
+WORKDIR /app
+COPY . /app
+RUN rm -rf /app/vendor
+RUN rm -rf /app/.env
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 RUN npm install
 RUN npm run production
+
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+EXPOSE 8080
