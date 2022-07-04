@@ -1,5 +1,7 @@
 # GET LATEST COMPOSER IMAGE
 FROM composer:latest as composer_stage
+# GET LATEST NODEJS
+FROM node:latest-slim as node_stage
 # GET PHP 8.1 IMAGE
 FROM php:8.1
 
@@ -11,6 +13,11 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # INSTALL PHP EXTENSIONS
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# COMBINING NODE
+COPY --from=node_stage /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node_stage /usr/local/bin/node /usr/local/bin/node
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # GET LATEST COMPOSER
 COPY --from=composer_stage /usr/bin/composer /usr/bin/composer
