@@ -5,9 +5,6 @@ FROM node:latest as node_stage
 # GET NGINX IMAGE
 FROM trafex/php-nginx:latest
 
-# SET TIMEZONE
-RUN ln -snf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && echo 'Asia/Jakarta' > /etc/timezone
-
 # COPYING COMPOSER BINARY
 COPY --from=composer_stage /usr/bin/composer /usr/bin/composer
 
