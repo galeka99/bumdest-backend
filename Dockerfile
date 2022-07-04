@@ -1,7 +1,7 @@
 # GET LATEST COMPOSER IMAGE
 FROM composer:latest as composer_stage
 # GET LATEST NODEJS
-FROM node:latest-slim as node_stage
+FROM node:latest as node_stage
 # GET PHP 8.1 IMAGE
 FROM php:8.1
 
