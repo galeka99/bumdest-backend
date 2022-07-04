@@ -11,7 +11,7 @@ COPY --from=composer_stage /usr/bin/composer /usr/bin/composer
 # COPYING NODEJS BINARY
 COPY --from=node_stage /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node_stage /usr/local/bin/node /usr/local/bin/node
-RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+COPY --from=node_stage /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 WORKDIR /app
 COPY . /app
