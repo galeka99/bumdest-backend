@@ -11,10 +11,10 @@ COPY --from=node_stage /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node_stage /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
-WORKDIR /usr/share/nginx/html
-COPY . /usr/share/nginx/html
-RUN rm -rf /usr/share/nginx/html/vendor
-RUN rm -rf /usr/share/nginx/html/.env
+WORKDIR /var/www/html
+COPY . /var/www/html
+RUN rm -rf /var/www/html/vendor
+RUN rm -rf /var/www/html/.env
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 RUN npm install
 RUN npm run production
