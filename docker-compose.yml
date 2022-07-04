@@ -21,6 +21,7 @@ services:
       - DB_DATABASE=bumdest
       - DB_USERNAME=root
       - DB_PASSWORD=root
+    network: bridge
   bumdest-db:
     image: mysql:8.0
     container_name: bumdest-db
