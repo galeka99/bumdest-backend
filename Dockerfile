@@ -19,6 +19,7 @@ RUN chmod 777 -R storage/
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 RUN npm install
 RUN npm run production
+RUN php artisan optimize
 
 RUN rm -rf /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
