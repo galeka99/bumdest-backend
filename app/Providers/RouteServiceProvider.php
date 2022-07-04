@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         $url = $this->app['url'];
         // Force the application URL
         $url->forceRootUrl(config('app.url'));
-        $url->forceSchema('https');
+        $url->forceScheme('https');
     }
 
     /**
