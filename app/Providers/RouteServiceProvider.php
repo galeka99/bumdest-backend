@@ -37,10 +37,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-        $url = $this->app['url'];
-        // Force the application URL
-        $url->forceRootUrl(config('app.url'));
-        $url->forceScheme('https');
+        if (env('APP_ENV') === 'production') {
+            // Force URL & HTTPS
+            $url = $this->app['url'];
+            $url->forceRootUrl(config('app.url'));
+            $url->forceScheme('https');
+        }
     }
 
     /**
