@@ -10,12 +10,12 @@ class Helper
 {
   public static function uploadFile($path, $file)
   {
-    return Storage::put($path, $file);
+    return Storage::disk('idcloudhost')->put($path, $file, 'public');
   }
 
   public static function deleteFile($path)
   {
-    return Storage::delete($path);
+    return Storage::disk('idcloudhost')->delete($path);
   }
 
   public static function toRupiah(int $num)
