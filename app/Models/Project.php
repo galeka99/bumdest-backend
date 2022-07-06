@@ -13,17 +13,12 @@ class Project extends Model
     protected $fillable = ['title', 'description', 'invest_target', 'offer_start_date', 'offer_end_date', 'proposal_path', 'bumdes_id', 'status_id'];
     protected $hidden = ['proposal_path', 'bumdes_id', 'status_id'];
     protected $with = ['images', 'bumdes', 'status'];
-    protected $appends = ['current_invest', 'proposal', 'rating', 'rating_count'];
+    protected $appends = ['current_invest', 'proposal', 'vote_average', 'vote_count'];
 
     public function getCurrentInvestAttribute()
     {
-        $investments = $this->hasMany(Investment::class, 'project_id', 'id')->getResults();
-        $total = 0;
-        foreach ($investments as $investment) {
-            $total += $investment->amount;
-        }
-
-        return $total;
+        $current = $this->hasMany(Investment::class, 'project_id', 'id')->where('investment_status_id', 2)->sum('amount');
+        return $current;
     }
 
     public function getProposalAttribute()
@@ -35,14 +30,13 @@ class Project extends Model
         }
     }
 
-    public function getRatingAttribute()
+    public function getVoteAverageAttribute()
     {
-        $rating_total = $this->hasMany(Rating::class, 'project_id', 'id')->selectRaw('SUM(value) AS total')->get('total')[0]['total'];
-        $rating_count = $this->hasMany(Rating::class, 'project_id', 'id')->count();
-        return $rating_total / $rating_count;
+        $avg = $this->hasMany(Rating::class, 'project_id', 'id')->avg('value');
+        return floatval($avg);
     }
 
-    public function getRatingCountAttribute()
+    public function getVoteCountAttribute()
     {
         return $this->hasMany(Rating::class, 'project_id', 'id')->count();
     }

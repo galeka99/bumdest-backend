@@ -12,6 +12,19 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectApiController extends Controller
 {
+    public function random(Request $request)
+    {
+        $limit = intval($request->input('limit', '25'));
+        $projects = Project::with(['images', 'bumdes:id,name,district_id', 'status'])
+            ->whereDate('offer_start_date', '<=', Carbon::now())
+            ->whereDate('offer_end_date', '>=', Carbon::now())
+            ->inRandomOrder()
+            ->paginate($limit);
+        $hidden_fields = ['proposal', 'images'];
+
+        return Helper::sendJson(null, Helper::paginate($projects, $hidden_fields));
+    }
+
     public function newest(Request $request)
     {
         $limit = intval($request->input('limit', '25'));
@@ -19,6 +32,19 @@ class ProjectApiController extends Controller
             ->whereDate('offer_start_date', '<=', Carbon::now())
             ->whereDate('offer_end_date', '>=', Carbon::now())
             ->orderBy('created_at', 'DESC')
+            ->paginate($limit);
+        $hidden_fields = ['proposal', 'images'];
+        
+        return Helper::sendJson(null, Helper::paginate($projects, $hidden_fields));
+    }
+
+    public function almost_end(Request $request)
+    {
+        $limit = intval($request->input('limit', '25'));
+        $projects = Project::with(['images', 'bumdes:id,name,district_id', 'status'])
+            ->whereDate('offer_start_date', '<=', Carbon::now())
+            ->whereDate('offer_end_date', '>=', Carbon::now())
+            ->orderBy('offer_end_date', 'DESC')
             ->paginate($limit);
         $hidden_fields = ['proposal', 'images'];
         

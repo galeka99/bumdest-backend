@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BumdesApiController;
 use App\Http\Controllers\DepositApiController;
 use App\Http\Controllers\InvestmentApiController;
 use App\Http\Controllers\LocationController;
@@ -38,6 +39,8 @@ Route::prefix('v1')->group(function() {
     // PRODUCT
     Route::prefix('product')->group(function() {
       Route::get('newest', [ProjectApiController::class, 'newest']);
+      Route::get('random', [ProjectApiController::class, 'random']);
+      Route::get('almost_end', [ProjectApiController::class, 'almost_end']);
       Route::get('detail/{id}', [ProjectApiController::class, 'detail']);
       Route::post('invest', [ProjectApiController::class, 'invest']);
     });
@@ -52,6 +55,13 @@ Route::prefix('v1')->group(function() {
     Route::prefix('rating')->group(function() {
       Route::get('/{id}', [RatingApiController::class, 'check']);
       Route::post('/{id}/rate', [RatingApiController::class, 'rate']);
+    });
+
+    // BUMDES
+    Route::prefix('bumdes')->group(function() {
+      Route::get('/', [BumdesApiController::class, 'list']);
+      Route::get('/{id}', [BumdesApiController::class, 'detail']);
+      Route::get('/{id}/products', [BumdesApiController::class, 'product_list']);
     });
   });
 });
