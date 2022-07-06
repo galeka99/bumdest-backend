@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helper;
 use App\Models\District;
 use App\Models\Gender;
 use App\Models\User;
@@ -27,28 +28,12 @@ class UserApiController extends Controller
             'gender_id' => 'required|numeric',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'error' => 'INVALID_REQUEST',
-                'data' => $validator->errors(),
-            ], 400);
-        }
+        if ($validator->fails()) return Helper::sendJson('INVALID_REQUEST', $validator->errors(), 400);
 
         $district = District::find($request->post('district_id'));
-        if (!$district)
-            return response()->json([
-                'status' => 404,
-                'error' => 'DISTRICT_NOT_FOUND',
-                'data' => null,
-            ]);
+        if (!$district) return Helper::sendJson('DISTRICT_NOT_FOUND', null, 404);
         $gender = Gender::find($request->post('gender_id'));
-        if (!$gender)
-            return response()->json([
-                'status' => 404,
-                'error' => 'GENDER_NOT_FOUND',
-                'data' => null,
-            ]);
+        if (!$gender) return Helper::sendJson('GENDER_NOT_FOUND', null, 404);
 
         User::create([
             'name' => $request->post('name'),
@@ -64,11 +49,7 @@ class UserApiController extends Controller
             'verified' => true,
         ]);
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => null,
-        ]);
+        return Helper::sendJson(null, null);
     }
 
     public function login(Request $request)
@@ -78,31 +59,16 @@ class UserApiController extends Controller
             'password' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'error' => 'INVALID_REQUEST',
-                'data' => $validator->errors(),
-            ], 400);
-        }
+        if ($validator->fails()) return Helper::sendJson('INVALID_REQUEST', $validator->errors(), 400);
 
         $email = $request->post('email');
         $password = $request->post('password');
 
         $user = User::where('email', $email)->first();
-        if (!$user)
-            return response()->json([
-                'status' => 404,
-                'error' => 'USER_NOT_FOUND',
-                'data' => null,
-            ], 404);
+        if (!$user) return Helper::sendJson('USER_NOT_FOUND', null, 404);
 
         if (!Hash::check($password, $user->password))
-            return response()->json([
-                'status' => 401,
-                'error' => 'WRONG_PASSOWRD',
-                'data' => null,
-            ], 401);
+            return Helper::sendJson('WRONG_PASSWORD', null, 401);
 
         $token = Str::random(80);
         $expired = Carbon::now('Asia/Jakarta')->addMonth()->format('Y-m-d');
@@ -112,20 +78,12 @@ class UserApiController extends Controller
             'expired_at' => $expired,
         ]);
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => $token,
-        ]);
+        return Helper::sendJson(null, $token);
     }
 
     public function userinfo(Request $request)
     {
         $user = User::find($request->user->id);
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => $user,
-        ]);
+        return Helper::sendJson(null, $user);
     }
 }

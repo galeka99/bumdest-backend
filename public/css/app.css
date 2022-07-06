@@ -534,6 +534,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .items-center {
   align-items: center;
 }
+.justify-start {
+  justify-content: flex-start;
+}
 .justify-end {
   justify-content: flex-end;
 }
@@ -566,6 +569,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .gap-y-2 {
   row-gap: 0.5rem;
+}
+.gap-x-5 {
+  -moz-column-gap: 1.25rem;
+       column-gap: 1.25rem;
 }
 .self-end {
   align-self: flex-end;

@@ -21,6 +21,11 @@
       'url' => 'investors',
     ],
     [
+      'title' => 'Monthly Reports',
+      'icon' => 'chart-areaspline',
+      'url' => 'reports',
+    ],
+    [
       'title' => 'Profile',
       'icon' => 'account-circle',
       'url' => 'profile',

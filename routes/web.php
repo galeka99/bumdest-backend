@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\InvestorController;
+use App\Http\Controllers\MonthlyReportController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
@@ -22,7 +24,7 @@ Route::middleware('auth')->group(function() {
   
   // DASHBOARD
   Route::prefix('dashboard')->group(function() {
-    Route::view('/', 'dashboard.index');
+    Route::get('/', [DashboardController::class, 'index']);
   });
 
   // TOPUP BALANCE
@@ -59,5 +61,18 @@ Route::middleware('auth')->group(function() {
   Route::prefix('investors')->group(function() {
     Route::get('/', [InvestorController::class, 'list']);
     Route::get('/{id}', [InvestorController::class, 'detail']);
+  });
+
+  // MONTHLY REPORTS
+  Route::prefix('reports')->group(function() {
+    Route::get('/', [MonthlyReportController::class, 'index']);
+    Route::post('/', [MonthlyReportController::class, 'add']);
+    Route::get('/{id}', [MonthlyReportController::class, 'detail']);
+  });
+
+  // PROFILE
+  Route::prefix('profile')->group(function() {
+    Route::get('/', [UserController::class, 'profile']);
+    Route::put('/', [UserController::class, 'update_profile']);
   });
 });

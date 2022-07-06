@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Investment;
+use App\Models\Project;
+use Carbon\Carbon;
+
+class DashboardController extends Controller
+{
+    public function index()
+    {
+        $current_invest = Investment::whereHas('project', function ($query) {
+            return $query
+                ->where('bumdes_id', auth()->user()->bumdes->id)
+                ->whereDate('offer_start_date', '<=', Carbon::now())
+                ->whereDate('offer_end_date', '>=', Carbon::now())
+                ->groupBy('bumdes_id');
+        })->where('investment_status_id', 2)->sum('amount');
+        $invest_target = Project::where('bumdes_id', auth()->user()->bumdes->id)
+            ->whereDate('offer_start_date', '<=', Carbon::now())
+            ->whereDate('offer_end_date', '>=', Carbon::now())
+            ->groupBy('bumdes_id')
+            ->sum('invest_target');
+        $total_product = Project::where('bumdes_id', auth()->user()->bumdes->id)->count();
+        $total_investor = Investment::whereHas('project', function ($query) {
+            return $query->where('bumdes_id', auth()->user()->bumdes->id);
+        })->where('investment_status_id', 2)->select('user_id')->distinct()->get()->makeVisible('user_id')->count();
+        $products = Project::where('bumdes_id', auth()->user()->bumdes->id)->orderBy('created_at', 'DESC')->take(10)->get();
+        $investments = Investment::whereHas('project', function ($query) {
+            return $query->where('bumdes_id', auth()->user()->bumdes->id);
+        })
+            ->where('investment_status_id', 2)
+            ->orderBy('created_at')
+            ->take(10)
+            ->get();
+
+        return view('dashboard.index', compact('current_invest', 'invest_target', 'total_product', 'total_investor', 'products', 'investments'));
+    }
+}

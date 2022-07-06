@@ -16,11 +16,7 @@ class InvestmentApiController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate($limit);
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => Helper::paginate($investments),
-        ]);
+        return Helper::sendJson(null, Helper::paginate($investments));
     }
 
     public function detail(Request $request, int $id)
@@ -35,17 +31,8 @@ class InvestmentApiController extends Controller
         //     ->first()
         //     ->makeHidden(['project.bumdes.balance']);
 
-        if (!$investment)
-            return response()->json([
-                'status' => 404,
-                'error' => 'INVESTMENT_NOT_FOUND',
-                'data' => null,
-            ], 404);
+        if (!$investment) return Helper::sendJson('INVESTMENT_NOT_FOUND', null, 404);
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => $investment,
-        ]);
+        return Helper::sendJson(null, $investment);
     }
 }

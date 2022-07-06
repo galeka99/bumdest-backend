@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Helper;
+use App\Http\Helper;{}
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class Project extends Model
     protected $fillable = ['title', 'description', 'invest_target', 'offer_start_date', 'offer_end_date', 'proposal_path', 'bumdes_id', 'status_id'];
     protected $hidden = ['proposal_path', 'bumdes_id', 'status_id'];
     protected $with = ['images', 'bumdes', 'status'];
-    protected $appends = ['current_invest', 'proposal'];
+    protected $appends = ['current_invest', 'proposal', 'rating', 'rating_count'];
 
     public function getCurrentInvestAttribute()
     {
@@ -33,6 +33,18 @@ class Project extends Model
         } else {
             return null;
         }
+    }
+
+    public function getRatingAttribute()
+    {
+        $rating_total = $this->hasMany(Rating::class, 'project_id', 'id')->selectRaw('SUM(value) AS total')->get('total')[0]['total'];
+        $rating_count = $this->hasMany(Rating::class, 'project_id', 'id')->count();
+        return $rating_total / $rating_count;
+    }
+
+    public function getRatingCountAttribute()
+    {
+        return $this->hasMany(Rating::class, 'project_id', 'id')->count();
     }
 
     public function images()

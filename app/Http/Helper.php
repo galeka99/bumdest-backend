@@ -23,6 +23,11 @@ class Helper
     return 'Rp ' . number_format($num, 0, ',', '.');
   }
 
+  public static function formatNumber(int $num)
+  {
+    return number_format($num, 0, ',', '.');
+  }
+
   public static function fileUrl($path)
   {
     $url = Str::substr($path, 7);
@@ -41,5 +46,14 @@ class Helper
       'data' => $paginator->makeHidden($hidden_fields),
     ];
     return $result;
+  }
+
+  public static function sendJson($error_code = null, $data = [], $status = 200)
+  {
+    return response()->json([
+      'status' => $status,
+      'error' => $status == 200 ? null : ($error_code ?: 'INVALID_REQUEST'),
+      'data' => $data,
+    ], $status);
   }
 }

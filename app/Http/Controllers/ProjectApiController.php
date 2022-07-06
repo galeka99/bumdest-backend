@@ -20,13 +20,9 @@ class ProjectApiController extends Controller
             ->whereDate('offer_end_date', '>=', Carbon::now())
             ->orderBy('created_at', 'DESC')
             ->paginate($limit);
-        $hidden_fields = ['proposal'];
+        $hidden_fields = ['proposal', 'images'];
         
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => Helper::paginate($projects, $hidden_fields),
-        ]);
+        return Helper::sendJson(null, Helper::paginate($projects, $hidden_fields));
     }
 
     public function detail(int $id)
@@ -34,18 +30,9 @@ class ProjectApiController extends Controller
         $project = Project::where('id', $id)
             ->with(['images', 'bumdes', 'status'])
             ->first();
-        if (!$project)
-            return response()->json([
-                'status' => 404,
-                'error' => 'PRODUCT_NOT_FOUND',
-                'data' => null,
-            ], 404);
+        if (!$project) return Helper::sendJson('PRODUCT_NOT_FOUND', null, 404);
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => $project,
-        ]);
+        return Helper::sendJson(null, $project);
     }
 
     public function invest(Request $request)
@@ -55,31 +42,15 @@ class ProjectApiController extends Controller
             'amount' => 'required|numeric',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'error' => 'INVALID_REQUEST',
-                'data' => $validator->errors(),
-            ], 400);
-        }
+        if ($validator->fails()) return Helper::sendJson('INVALID_REQUEST', $validator->errors(), 400);
 
         $amount = intval($request->post('amount', '0'));
         $project = Project::where('id', $request->post('product_id'))
             ->with(['images', 'bumdes', 'status'])
             ->first();
-        if (!$project)
-            return response()->json([
-                'status' => 404,
-                'error' => 'PRODUCT_NOT_FOUND',
-                'data' => null,
-            ], 404);
+        if (!$project) return Helper::sendJson('PRODUCT_NOT_FOUND', null, 404);
 
-        if ($request->user->balance < $amount)
-            return response()->json([
-                'status' => 403,
-                'error' => 'INSUFFICIENT_BALANCE',
-                'data' => null,
-            ], 403);
+        if ($request->user->balance < $amount) return Helper::sendJson('INSUFFICIENT_BALANCE', null, 403);
 
         $user = User::find($request->user->id);
         $user->balance -= $amount;
@@ -92,10 +63,6 @@ class ProjectApiController extends Controller
             'investment_status_id' => 1,
         ]);
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => null,
-        ]);
+        return Helper::sendJson(null, null);
     }
 }
