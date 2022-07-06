@@ -30,8 +30,8 @@ class Helper
 
   public static function fileUrl($path)
   {
-    $url = Str::substr($path, 7);
-    return URL::to('public/' . $url);
+    $s3_url = 'https://is3.cloudhost.id/bumdest/';
+    return $s3_url.$path;
   }
 
   public static function paginate($paginator, $hidden_fields = [])
