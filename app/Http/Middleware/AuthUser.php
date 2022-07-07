@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Helper;
 use App\Models\UserToken;
 use Closure;
 use Illuminate\Http\Request;
@@ -12,17 +13,17 @@ class AuthUser
     {
         $auth = $request->header('Authorization');
         if (!$auth) {
-            return response()->json(['error' => 'ACCESS_TOKEN_NOT_FOUND'], 403);
+            return Helper::sendJson('ACCESS_TOKEN_NOT_FOUND', null, 404);
         }
 
         $tokenSent = explode(' ', $auth)[1];
         $token = UserToken::where('token', $tokenSent)->first();
         if (!$token) {
-            return response()->json(['error' => 'INVALID_ACCESS_TOKEN'], 401);
+            return Helper::sendJson('INVALID_ACCESS_TOKEN', null, 401);
         }
 
         if ($token->user->role_id !== 3) {
-            return response()->json(['error' => 'RESTRICTED_ACCESS'], 403);
+            return Helper::sendJson('RESTRICTED_ACCESS', null, 403);
         }
 
         $request['user'] = $token->user;
