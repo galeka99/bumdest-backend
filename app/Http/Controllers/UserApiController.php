@@ -35,6 +35,9 @@ class UserApiController extends Controller
         $gender = Gender::find($request->post('gender_id'));
         if (!$gender) return Helper::sendJson('GENDER_NOT_FOUND', null, 404);
 
+        $user = User::where('email', $request->post('email'))->first();
+        if ($user) return Helper::sendJson('EMAIL_ALREADY_USED', null, 403);
+
         User::create([
             'name' => $request->post('name'),
             'email' => $request->post('email'),
