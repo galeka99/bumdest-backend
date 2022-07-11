@@ -7,6 +7,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProjectApiController;
 use App\Http\Controllers\RatingApiController;
 use App\Http\Controllers\UserApiController;
+use App\Http\Controllers\WithdrawApiController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function() {
