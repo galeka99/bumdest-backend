@@ -40,7 +40,7 @@ Route::prefix('v1')->group(function() {
     // WITHDRAW
     Route::prefix('withdraw')->group(function() {
       Route::get('methods', [WithdrawApiController::class, 'payment_method']);
-      Route::post('request', [DepositApiController::class, 'request']);
+      Route::post('request', [WithdrawApiController::class, 'request']);
       Route::get('history', [WithdrawApiController::class, 'history']);
       Route::get('detail/{id}', [WithdrawApiController::class, 'detail']);
     });
