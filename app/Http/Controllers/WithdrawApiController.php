@@ -26,6 +26,8 @@ class WithdrawApiController extends Controller
 
         if ($validator->fails()) return Helper::sendJson('INVALID_REQUEST', $validator->errors(), 400);
 
+        $user = User::find($request->user->id);
+
         $method = PaymentMethod::find($request->post('method'));
         if (!$method) return Helper::sendJson('PAYMENT_METHOD_NOT_FOUND', null, 404);
         
@@ -33,6 +35,7 @@ class WithdrawApiController extends Controller
         $amount = intval($request->post('amount', '0'));
 
         if ($amount < 0) return Helper::sendJson('INVALID_AMOUNT', null, 400);
+        if ($amount > $user->balance) return Helper::sendJson('INSUFFICIENT_BALANCE', null, 403);
 
         Withdraw::create([
             'amount' => $amount,
@@ -41,9 +44,8 @@ class WithdrawApiController extends Controller
             'user_id' => $request->user->id,
         ]);
 
-        // INCREASE USER BALANCE
-        $user = User::find($request->user->id);
-        $user->balance += $amount;
+        // DECREASE USER BALANCE
+        $user->balance -= $amount;
         $user->save();
 
         return Helper::sendJson(null, null);
