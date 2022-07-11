@@ -36,6 +36,14 @@ Route::prefix('v1')->group(function() {
       Route::get('detail/{id}', [DepositApiController::class, 'detail']);
     });
 
+    // WITHDRAW
+    Route::prefix('withdraw')->group(function() {
+      Route::get('methods', [WithdrawApiController::class, 'payment_method']);
+      Route::post('request', [DepositApiController::class, 'request']);
+      Route::get('history', [WithdrawApiController::class, 'history']);
+      Route::get('detail/{id}', [WithdrawApiController::class, 'detail']);
+    });
+
     // PRODUCT
     Route::prefix('product')->group(function() {
       Route::get('newest', [ProjectApiController::class, 'newest']);
