@@ -15,7 +15,7 @@ class ProjectApiController extends Controller
     public function random(Request $request)
     {
         $limit = intval($request->input('limit', '25'));
-        $projects = Project::with(['images', 'bumdes:id,name,district_id', 'status'])
+        $projects = Project::with(['bumdes:id,name,district_id', 'status'])
             ->whereDate('offer_start_date', '<=', Carbon::now())
             ->whereDate('offer_end_date', '>=', Carbon::now())
             ->inRandomOrder()
@@ -28,7 +28,7 @@ class ProjectApiController extends Controller
     public function newest(Request $request)
     {
         $limit = intval($request->input('limit', '25'));
-        $projects = Project::with(['images', 'bumdes:id,name,district_id', 'status'])
+        $projects = Project::with(['bumdes:id,name,district_id', 'status'])
             ->whereDate('offer_start_date', '<=', Carbon::now())
             ->whereDate('offer_end_date', '>=', Carbon::now())
             ->orderBy('created_at', 'DESC')
@@ -41,7 +41,7 @@ class ProjectApiController extends Controller
     public function almost_end(Request $request)
     {
         $limit = intval($request->input('limit', '25'));
-        $projects = Project::with(['images', 'bumdes:id,name,district_id', 'status'])
+        $projects = Project::with(['bumdes:id,name,district_id', 'status'])
             ->whereDate('offer_start_date', '<=', Carbon::now())
             ->whereDate('offer_end_date', '>=', Carbon::now())
             ->orderBy('offer_end_date', 'DESC')
