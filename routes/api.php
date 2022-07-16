@@ -4,6 +4,7 @@ use App\Http\Controllers\BumdesApiController;
 use App\Http\Controllers\DepositApiController;
 use App\Http\Controllers\InvestmentApiController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MonthlyReportApiController;
 use App\Http\Controllers\ProjectApiController;
 use App\Http\Controllers\RatingApiController;
 use App\Http\Controllers\UserApiController;
@@ -71,6 +72,13 @@ Route::prefix('v1')->group(function() {
       Route::get('/', [BumdesApiController::class, 'list']);
       Route::get('/{id}', [BumdesApiController::class, 'detail']);
       Route::get('/{id}/products', [BumdesApiController::class, 'product_list']);
+      Route::get('/{id}/investors/top_ten', [BumdesApiController::class, 'top_ten_investors']);
+    });
+
+    // REPORT
+    Route::prefix('report')->group(function() {
+      Route::get('/', [MonthlyReportApiController::class, 'list']);
+      Route::get('/{id}', [MonthlyReportApiController::class, 'detail']);
     });
   });
 });

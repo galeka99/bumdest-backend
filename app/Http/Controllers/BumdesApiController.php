@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helper;
 use App\Models\Bumdes;
+use App\Models\Investment;
 use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -38,5 +39,31 @@ class BumdesApiController extends Controller
         $hidden_fields = ['proposal', 'images'];
 
         return Helper::sendJson(null, Helper::paginate($projects, $hidden_fields));
+    }
+
+    public function top_ten_investors(Request $request, int $id)
+    {
+        $investors = Investment::whereHas('project', function ($query) use ($id) {
+            return $query->where('bumdes_id', $id);
+        })
+            ->where('investment_status_id', 2)
+            ->selectRaw('SUM(amount) as total, user_id')
+            ->with(['user:id,name,gender_id,district_id'])
+            ->groupBy('user_id')
+            ->orderBy('total')
+            ->take(10)
+            ->get()
+            ->map(function ($el) {
+                return [
+                    'user_id' => $el->user->id,
+                    'user_name' => $el->user->name,
+                    'user_province' => $el->user->location['province_name'],
+                    'user_city' => $el->user->location['city_name'],
+                    'user_district' => $el->user->location['district_name'],
+                    'total_invest' => intval($el->total),
+                ];
+            });
+        
+        return Helper::sendJson(null, $investors);
     }
 }
