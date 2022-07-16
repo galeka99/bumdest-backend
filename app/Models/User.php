@@ -12,7 +12,7 @@ class User extends Authenticatable
 
     protected $fillable = ['name', 'email', 'password', 'phone', 'balance', 'address', 'postal_code', 'district_id', 'gender_id', 'role_id', 'user_status_id', 'bumdes_id', 'verified'];
     protected $hidden = ['password', 'district_id', 'gender_id', 'role_id', 'user_status_id', 'bumdes_id', 'remember_token'];
-    protected $appends = ['gender', 'location'];
+    protected $appends = ['gender', 'location', 'total_invest', 'total_income'];
     
     public function getGenderAttribute()
     {
@@ -31,6 +31,16 @@ class User extends Authenticatable
             'province_id' => $district->city->province->id,
             'province_name' => $district->city->province->name,
         ];
+    }
+
+    public function getTotalInvestAttribute() {
+        $investments = Investment::where('user_id', $this->id)->where('investment_status_id', 2)->sum('amount');
+        return intval($investments);
+    }
+
+    public function getTotalIncomeAttribute() {
+        $incomes = MonthlyReportDetail::where('user_id', $this->id)->sum('amount');
+        return intval($incomes);
     }
 
     public function gender()
