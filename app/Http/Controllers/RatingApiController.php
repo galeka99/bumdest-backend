@@ -12,7 +12,7 @@ class RatingApiController extends Controller
 {
     public function check(Request $request, int $id)
     {
-        $rating = Rating::where('id', $id)->where('user_id', $request->user->id)->first();
+        $rating = Rating::where('project_id', $id)->where('user_id', $request->user->id)->first();
         if (!$rating) {
             return Helper::sendJson(null, null);
         } else {
