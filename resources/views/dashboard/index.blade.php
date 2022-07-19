@@ -1,6 +1,9 @@
 @extends('template.dashboard')
 @section('title', 'Dashboard')
 @section('content')
+  @if (auth()->user()->role_id === 1)
+  <div class="flex flex-col p-4"></div>
+  @elseif (auth()->user()->role_id === 2)
   <div class="flex flex-col p-4">
     <span class="text-xl text-blue-600 font-bold uppercase mb-3">Dashboard</span>
     <div class="flex flex-row w-full gap-x-4">
@@ -87,4 +90,5 @@
       </div>
     </div>
   </div>
+  @endif
 @endsection

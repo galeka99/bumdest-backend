@@ -203,7 +203,7 @@
     userProvince.addEventListener('change', async (event) => {
       const provinceId = event.target.value;
       const cities = await getCity(provinceId);
-      userCity.innerHTML = '<option disabled selected>-- PILIH KOTA/KABUPATEN --</option>\n';
+      userCity.innerHTML = '<option disabled selected>-- SELECT CITY --</option>\n';
       cities.forEach(city => {
         userCity.innerHTML += `<option value="${city.id}">${city.name}</option>`;
       });
@@ -212,7 +212,7 @@
     userCity.addEventListener('change', async (event) => {
       const cityId = event.target.value;
       const districts = await getDistrict(cityId);
-      userDistrict.innerHTML = '<option disabled selected>-- PILIH KECAMATAN --</option>\n';
+      userDistrict.innerHTML = '<option disabled selected>-- SELECT DISTRICT --</option>\n';
       districts.forEach(district => {
         userDistrict.innerHTML += `<option value="${district.id}">${district.name.toUpperCase()}</option>`;
       });
@@ -221,7 +221,7 @@
     bumdesProvince.addEventListener('change', async (event) => {
       const provinceId = event.target.value;
       const cities = await getCity(provinceId);
-      bumdesCity.innerHTML = '<option disabled selected>-- PILIH KOTA/KABUPATEN --</option>\n';
+      bumdesCity.innerHTML = '<option disabled selected>-- SELECT CITY --</option>\n';
       cities.forEach(city => {
         bumdesCity.innerHTML += `<option value="${city.id}">${city.name}</option>`;
       });
@@ -230,7 +230,7 @@
     bumdesCity.addEventListener('change', async (event) => {
       const cityId = event.target.value;
       const districts = await getDistrict(cityId);
-      bumdesDistrict.innerHTML = '<option disabled selected>-- PILIH KECAMATAN --</option>\n';
+      bumdesDistrict.innerHTML = '<option disabled selected>-- SELECT DISTRICT --</option>\n';
       districts.forEach(district => {
         bumdesDistrict.innerHTML += `<option value="${district.id}">${district.name.toUpperCase()}</option>`;
       });
