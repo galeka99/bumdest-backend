@@ -50,6 +50,7 @@ Route::prefix('v1')->group(function() {
     Route::prefix('product')->group(function() {
       Route::get('newest', [ProjectApiController::class, 'newest']);
       Route::get('random', [ProjectApiController::class, 'random']);
+      Route::get('search', [ProjectApiController::class, 'search']);
       Route::get('almost_end', [ProjectApiController::class, 'almost_end']);
       Route::get('detail/{id}', [ProjectApiController::class, 'detail']);
       Route::post('invest', [ProjectApiController::class, 'invest']);

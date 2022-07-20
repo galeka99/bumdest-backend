@@ -51,6 +51,22 @@ class ProjectApiController extends Controller
         return Helper::sendJson(null, Helper::paginate($projects, $hidden_fields));
     }
 
+    public function search(Request $request)
+    {
+        $limit = intval($request->input('limit', '25'));
+        $q = $request->get('q', '');
+        $projects = Project::with(['bumdes:id,name,district_id', 'status'])
+            ->whereDate('offer_start_date', '<=', Carbon::now())
+            ->whereDate('offer_end_date', '>=', Carbon::now())
+            ->where('title', 'LIKE', "%$q%")
+            ->orWhere('description', 'LIKE', "%$q%")
+            ->orderBy('offer_end_date', 'DESC')
+            ->paginate($limit);
+        $hidden_fields = ['proposal', 'images'];
+        
+        return Helper::sendJson(null, Helper::paginate($projects, $hidden_fields));
+    }
+
     public function detail(int $id)
     {
         $project = Project::where('id', $id)
