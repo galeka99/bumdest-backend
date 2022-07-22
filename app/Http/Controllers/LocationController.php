@@ -12,19 +12,19 @@ class LocationController extends Controller
 {
     public function provinces()
     {
-        $provinces = Province::all();
+        $provinces = Province::orderBy('name', 'ASC')->get();
         return Helper::sendJson(null, $provinces);
     }
 
     public function cities(int $id)
     {
-        $cities = City::where('province_id', $id)->get();
+        $cities = City::where('province_id', $id)->orderBy('name', 'ASC')->get();
         return Helper::sendJson(null, $cities);
     }
 
     public function districts(int $id)
     {
-        $districts = District::where('city_id', $id)->get();
+        $districts = District::where('city_id', $id)->orderBy('name', 'ASC')->get();
         return Helper::sendJson(null, $districts);
     }
 }
