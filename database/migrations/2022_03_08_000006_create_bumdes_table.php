@@ -17,6 +17,7 @@ return new class extends Migration
             $table->longText('address');
             $table->string('postal_code');
             $table->longText('description');
+            $table->string('maps_url')->nullable();
             $table->timestamps();
         });
     }

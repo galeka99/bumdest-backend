@@ -24,7 +24,7 @@ class BumdesController extends Controller
 
     public function add()
     {
-        $provinces = Province::all();
+        $provinces = Province::orderBy('name', 'ASC')->get();
         $genders = Gender::all();
         return view('dashboard.bumdes.add', compact('provinces', 'genders'));
     }
@@ -38,6 +38,7 @@ class BumdesController extends Controller
             'bumdes_postal_code' => 'required|numeric',
             'bumdes_district' => 'required|numeric',
             'bumdes_description' => 'required|string',
+            'bumdes_maps_url' => 'url|nullable',
             'user_name' => 'required|string',
             'user_email' => 'required|email',
             'password' => 'required',
@@ -58,6 +59,7 @@ class BumdesController extends Controller
             'address' => $request->post('bumdes_address'),
             'postal_code' => $request->post('bumdes_postal_code'),
             'description' => $request->post('bumdes_description'),
+            'maps_url' => $request->post('bumdes_maps_url'),
         ]);
         
         User::create([
@@ -86,7 +88,7 @@ class BumdesController extends Controller
         $user = User::where('bumdes_id', $id)->first();
         $user_statuses = UserStatus::all();
         $genders = Gender::all();
-        $provinces = Province::all();
+        $provinces = Province::orderBy('name', 'ASC')->get();
         $bumdes_cities = City::where('province_id', $bumdes->district->city->province_id)->get();
         $bumdes_districts = District::where('city_id', $bumdes->district->city_id)->get();
         $user_cities = City::where('province_id', $user->location['province_id'])->get();
@@ -104,6 +106,7 @@ class BumdesController extends Controller
             'bumdes_postal_code' => 'required|numeric',
             'bumdes_district' => 'required|numeric',
             'bumdes_description' => 'required|string',
+            'bumdes_maps_url' => 'url|nullable',
             'user_name' => 'required|string',
             'user_email' => 'required|email',
             'user_phone' => 'required|numeric',
@@ -124,6 +127,7 @@ class BumdesController extends Controller
         $bumdes->postal_code = $request->post('bumdes_postal_code', $bumdes->postal_code);
         $bumdes->district_id = $request->post('bumdes_district', $bumdes->district_id);
         $bumdes->description = $request->post('bumdes_description', $bumdes->description);
+        $bumdes->maps_url = $request->post('bumdes_maps_url', $bumdes->maps_url);
         $bumdes->save();
 
         $user->name = $request->post('user_name', $user->name);

@@ -127,7 +127,7 @@
           </div>
           <div class="form-group flex flex-row items-start mb-3">
             <label for="bumdes_description" class="w-2/5">Description<span class="text-red-600">*</span></label>
-            <textarea name="bumdes_description" id="bumdes_description" rows="10" class="form-control">{{ auth()->user()->bumdes->description }}</textarea>
+            <textarea name="bumdes_description" id="bumdes_description" rows="5" class="form-control">{{ auth()->user()->bumdes->description }}</textarea>
           </div>
           <div class="form-group flex flex-row items-start mb-3">
             <label for="bumdes_address" class="w-2/5">Address<span class="text-red-600">*</span></label>
@@ -171,6 +171,13 @@
                   <option value="{{ $district->id }}" @if($district->id == auth()->user()->bumdes->location['district_id']) selected @endif>{{ strtoupper($district->name) }}</option>
                 @endforeach
               </select>
+            </div>
+          </div>
+          <div class="form-group flex flex-row items-center mb-3">
+            <label for="bumdes_maps_url" class="w-2/5">Google Maps URL</label>
+            <div class="input-group">
+              <i class="input-group-text mdi mdi-mailbox"></i>
+              <input type="url" id="bumdes_maps_url" name="bumdes_maps_url" class="form-control w-full" value="{{ auth()->user()->bumdes->maps_url }}">
             </div>
           </div>
         </div>

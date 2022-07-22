@@ -82,6 +82,14 @@
           <textarea name="bumdes_description" id="bumdes_description" rows="4" class="form-control form-control-sm" required>{{ $bumdes->description }}</textarea>
         </div>
       </div>
+      <div class="flex flex-row mb-3">
+        <div class="w-1/4">
+          <label for="bumdes_maps_url">Google Maps URL</label>
+        </div>
+        <div class="w-3/4">
+          <input type="url" id="bumdes_maps_url" name="bumdes_maps_url" class="form-control form-control-sm" value="{{ $bumdes->maps_url }}">
+        </div>
+      </div>
       <div class="flex flex-row items-center mb-3">
         <hr class="grow">
         <span class="text-gray-400 text-sm uppercase mx-3">BUMDes User</span>

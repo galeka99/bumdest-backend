@@ -43,7 +43,7 @@ class UserController extends Controller
     public function profile()
     {
         $genders = Gender::all();
-        $provinces = Province::all();
+        $provinces = Province::orderBy('name', 'ASC')->get();
         $user_cities = City::where('province_id', auth()->user()->location['province_id'])->get();
         $user_districts = District::where('city_id', auth()->user()->location['city_id'])->get();
         $bumdes_cities = City::where('province_id', auth()->user()->bumdes->location['province_id'])->get();
@@ -68,6 +68,7 @@ class UserController extends Controller
             'bumdes_address' => 'required|string',
             'bumdes_postal_code' => 'required|numeric',
             'bumdes_district' => 'required|numeric',
+            'bumdes_maps_url' => 'url|nullable',
 
             'password' => 'required|string',
             'confirm_password' => 'required|string',
@@ -99,6 +100,7 @@ class UserController extends Controller
         $bumdes->district_id = $request->post('bumdes_district', $bumdes->district_id);
         $bumdes->address = $request->post('bumdes_address', $bumdes->address);
         $bumdes->postal_code = $request->post('bumdes_postal_code', $bumdes->postal_code);
+        $bumdes->maps_url = $request->post('bumdes_maps_url', $bumdes->maps_url);
         $bumdes->save();
 
         return redirect('/profile')->with('success', 'Profile updated');
