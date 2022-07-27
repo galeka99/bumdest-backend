@@ -10,6 +10,7 @@ use App\Models\Province;
 use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
 class BumdesController extends Controller
@@ -53,6 +54,7 @@ class BumdesController extends Controller
         if ($user) return redirect('/bumdes')->with('error', 'Email already used by another user');
 
         $bumdes = Bumdes::create([
+            'code' => Str::orderedUuid()->getHex(),
             'name' => $request->post('bumdes_name'),
             'phone' => $request->post('bumdes_phone'),
             'district_id' => $request->post('bumdes_district'),

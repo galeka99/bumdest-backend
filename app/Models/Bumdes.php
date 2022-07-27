@@ -9,8 +9,8 @@ class Bumdes extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'balance', 'district_id', 'address', 'postal_code', 'description', 'maps_url'];
-    protected $hidden = ['balance', 'district_id'];
+    protected $fillable = ['code', 'name', 'phone', 'balance', 'district_id', 'address', 'postal_code', 'description', 'maps_url'];
+    protected $hidden = ['code', 'balance', 'district_id'];
     protected $appends = ['location', 'vote_count', 'vote_average'];
 
     public function getLocationAttribute()

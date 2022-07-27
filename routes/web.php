@@ -7,9 +7,15 @@ use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\MonthlyReportController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('review')->group(function() {
+  Route::get('{bumdes_code}', [ReviewController::class, 'review']);
+  Route::post('{bumdes_code}', [ReviewController::class, 'submit_review']);
+});
 
 Route::middleware('guest')->group(function() {
   Route::get('/', function () {
