@@ -74,6 +74,7 @@ Route::prefix('v1')->group(function() {
       Route::get('/', [BumdesApiController::class, 'list']);
       Route::get('/{id}', [BumdesApiController::class, 'detail']);
       Route::get('/{id}/products', [BumdesApiController::class, 'product_list']);
+      Route::get('/{id}/reviews', [BumdesApiController::class, 'reviews']);
       Route::get('/{id}/investors/top_ten', [BumdesApiController::class, 'top_ten_investors']);
     });
 

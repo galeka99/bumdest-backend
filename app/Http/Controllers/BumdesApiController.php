@@ -6,6 +6,7 @@ use App\Http\Helper;
 use App\Models\Bumdes;
 use App\Models\Investment;
 use App\Models\Project;
+use App\Models\Review;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,19 @@ class BumdesApiController extends Controller
         if (!$bumdes) return Helper::sendJson('BUMDES_NOT_FOUND', null, 404);
 
         return Helper::sendJson(null, $bumdes);
+    }
+
+    public function reviews(Request $request, int $id)
+    {
+        $bumdes = Bumdes::find($id);
+        if (!$bumdes) return Helper::sendJson('BUMDES_NOT_FOUND', null, 404);
+
+        $limit = intval($request->input('limit', '25'));
+        $reviews = Review::where('bumdes_id', $bumdes->id)
+            ->with(['visitor:id,name,image_url'])
+            ->paginate($limit);
+
+        return Helper::sendJson(null, Helper::paginate($reviews));
     }
 
     public function product_list(Request $request, int $id)
