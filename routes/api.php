@@ -25,6 +25,7 @@ Route::prefix('v1')->group(function() {
 
     Route::middleware('auth.user')->group(function() {
       Route::get('info', [UserApiController::class, 'userinfo']);
+      Route::post('update', [UserApiController::class, 'update']);
     });
   });
 
