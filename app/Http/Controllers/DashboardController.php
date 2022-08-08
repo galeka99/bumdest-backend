@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Investment;
 use App\Models\Project;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\URL;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class DashboardController extends Controller
 {
@@ -37,8 +39,18 @@ class DashboardController extends Controller
                 ->orderBy('created_at')
                 ->take(10)
                 ->get();
-    
+
             return view('dashboard.index', compact('current_invest', 'invest_target', 'total_product', 'total_investor', 'products', 'investments'));
         }
+    }
+
+    public function download_review_qr()
+    {
+        $link = URL::to('/review/' . auth()->user()->bumdes->code);
+        $qr = QrCode::format('svg')->size(500)->generate($link);
+
+        return response($qr, 200, [
+            'Content-Type' => 'image/svg',
+        ],);
     }
 }

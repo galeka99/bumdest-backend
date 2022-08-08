@@ -87,8 +87,41 @@
           </table>
           <a href="{{ url('/investments') }}" class="btn btn-sm btn-outline-primary px-4 self-end">More Investments</a>
         </div>
+        <div class="flex flex-row bg-white rounded-lg shadow gap-x-3 p-3">
+          <div class="flex flex-col justify-between flex-grow-1">
+            <div class="flex flex-col uppercase mb-3">
+              <span class="text-lg text-blue-600 font-semibold">Do you wan't to push your BUMDes to a higher level?</span>
+              <span class="text-gray-600 text-xs">Make sure people give their 5 stars to your BUMDes</span>
+            </div>
+            <div class="flex flex-col">
+              <div class="input-group mb-2">
+                <i class="input-group-text mdi mdi-link"></i>
+                <input type="url" id="review_link" name="review_link" class="form-control form-control-sm" value="{{ url('/review/'.auth()->user()->bumdes->code) }}" readonly>
+              </div>
+              <div class="flex flex-row gap-x-2">
+                <button id="copy_review_link" class="btn btn-sm btn-outline-primary">Copy Link</button>
+                <a href="{{ url('/download/qr-review') }}" target="_blank" class="btn btn-sm btn-outline-success" download="bumdest-review-qr.svg">Download QR</a>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <div>{{ QrCode::size(150)->generate(url('/review/'.auth()->user()->bumdes->code)) }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <script>
+    document.querySelector('button#copy_review_link').addEventListener('click', async e => {
+      const url = "{{ url('/review/'.auth()->user()->bumdes->code) }}";
+      await navigator.clipboard.writeText(url);
+      Swal.fire({
+        icon: 'success',
+        text: 'Review link copied to clipboard',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    });
+  </script>
   @endif
 @endsection

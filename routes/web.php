@@ -47,6 +47,9 @@ Route::middleware('auth')->group(function() {
 
   // ROUTE FOR BUMDES ROLE
   Route::middleware('auth.bumdes')->group(function() {
+    // DOWNLOAD QR FOR REVIEW LINK
+    Route::get('/download/qr-review', [DashboardController::class, 'download_review_qr']);
+    
     // TOPUP BALANCE
     Route::prefix('topup')->group(function() {
       Route::get('/', [DepositController::class, 'history']);
