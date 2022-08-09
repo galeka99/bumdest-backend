@@ -51,9 +51,11 @@ Route::prefix('v1')->group(function() {
     Route::prefix('product')->group(function() {
       Route::get('newest', [ProjectApiController::class, 'newest']);
       Route::get('random', [ProjectApiController::class, 'random']);
+      Route::get('recommended', [ProjectApiController::class, 'recommended_products']);
       Route::get('search', [ProjectApiController::class, 'search']);
       Route::get('almost_end', [ProjectApiController::class, 'almost_end']);
       Route::get('detail/{id}', [ProjectApiController::class, 'detail']);
+      Route::get('recommendations/{id}', [ProjectApiController::class, 'related_products']);
       Route::post('invest', [ProjectApiController::class, 'invest']);
     });
 
@@ -74,6 +76,7 @@ Route::prefix('v1')->group(function() {
       Route::get('/', [BumdesApiController::class, 'list']);
       Route::get('/{id}', [BumdesApiController::class, 'detail']);
       Route::get('/{id}/products', [BumdesApiController::class, 'product_list']);
+      Route::get('/{id}/recommended_products', [BumdesApiController::class, 'recommended_products']);
       Route::get('/{id}/reviews', [BumdesApiController::class, 'reviews']);
       Route::get('/{id}/investors/top_ten', [BumdesApiController::class, 'top_ten_investors']);
     });

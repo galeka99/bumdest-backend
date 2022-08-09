@@ -22,6 +22,7 @@ services:
       - DB_DATABASE=bumdest
       - DB_USERNAME=root
       - DB_PASSWORD=root
+      - AI_ENDPOINT=https://a5e5-158-140-170-36.ap.ngrok.io
       - IDC_SPACES_KEY=ZJ343T6L8MLHJU96VUPW
       - IDC_SPACES_SECRET=Dihzl2JJiOy8K6iXWzCzFeJtvWRUjvWqwoBkrIIq
       - IDC_SPACES_ENDPOINT=https://is3.cloudhost.id/
