@@ -11,7 +11,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use Config;
 
 class ProjectApiController extends Controller
 {
@@ -95,7 +94,7 @@ class ProjectApiController extends Controller
                 ->whereDate('offer_start_date', '<=', Carbon::now())
                 ->whereDate('offer_end_date', '>=', Carbon::now())
                 ->inRandomOrder()
-                ->take(10)
+                ->take(5)
                 ->get()
                 ->map(function ($el) {
                     unset($el->proposal);
@@ -108,6 +107,21 @@ class ProjectApiController extends Controller
                     $project = Project::find($proj);
                     if ($project) array_push($projects, $project);
                 }
+
+                if (count($projects) == 0) {
+                    // USE RANDOM PRODUCTS
+                    $projects = Project::with(['bumdes:id,name,district_id', 'status'])
+                    ->whereDate('offer_start_date', '<=', Carbon::now())
+                    ->whereDate('offer_end_date', '>=', Carbon::now())
+                    ->inRandomOrder()
+                    ->take(5)
+                    ->get()
+                    ->map(function ($el) {
+                        unset($el->proposal);
+                        unset($el->images);
+                        return $el;
+                    });
+                }
             }
         } catch (Exception $err) {
             // USE RANDOM PRODUCTS
@@ -115,7 +129,7 @@ class ProjectApiController extends Controller
                 ->whereDate('offer_start_date', '<=', Carbon::now())
                 ->whereDate('offer_end_date', '>=', Carbon::now())
                 ->inRandomOrder()
-                ->take(10)
+                ->take(5)
                 ->get()
                 ->map(function ($el) {
                     unset($el->proposal);
@@ -152,7 +166,7 @@ class ProjectApiController extends Controller
                 ->whereDate('offer_start_date', '<=', Carbon::now())
                 ->whereDate('offer_end_date', '>=', Carbon::now())
                 ->inRandomOrder()
-                ->take(10)
+                ->take(5)
                 ->get()
                 ->map(function ($el) {
                     unset($el->proposal);
@@ -165,6 +179,21 @@ class ProjectApiController extends Controller
                     $project = Project::find($proj);
                     if ($project) array_push($projects, $project);
                 }
+
+                if (count($projects) == 0) {
+                    // USE RANDOM PRODUCTS
+                    $projects = Project::with(['bumdes:id,name,district_id', 'status'])
+                    ->whereDate('offer_start_date', '<=', Carbon::now())
+                    ->whereDate('offer_end_date', '>=', Carbon::now())
+                    ->inRandomOrder()
+                    ->take(5)
+                    ->get()
+                    ->map(function ($el) {
+                        unset($el->proposal);
+                        unset($el->images);
+                        return $el;
+                    });
+                }
             }
         } catch (Exception $err) {
             // USE RANDOM PRODUCTS
@@ -172,7 +201,7 @@ class ProjectApiController extends Controller
                 ->whereDate('offer_start_date', '<=', Carbon::now())
                 ->whereDate('offer_end_date', '>=', Carbon::now())
                 ->inRandomOrder()
-                ->take(10)
+                ->take(5)
                 ->get()
                 ->map(function ($el) {
                     unset($el->proposal);

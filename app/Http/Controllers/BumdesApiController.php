@@ -6,6 +6,7 @@ use App\Http\Helper;
 use App\Models\Bumdes;
 use App\Models\Investment;
 use App\Models\Project;
+use App\Models\Rating;
 use App\Models\Review;
 use Carbon\Carbon;
 use Exception;
@@ -67,8 +68,6 @@ class BumdesApiController extends Controller
         try {
             $url = config('app.ai_url').'/investor_rec_in_bumdes/';
 
-
-
             // GET DATA FROM RECOMMENDER SYSTEM
             $res = Http::asForm()
                 ->post($url, [
@@ -83,7 +82,7 @@ class BumdesApiController extends Controller
                 ->whereDate('offer_start_date', '<=', Carbon::now())
                 ->whereDate('offer_end_date', '>=', Carbon::now())
                 ->inRandomOrder()
-                ->take(10)
+                ->take(5)
                 ->get()
                 ->map(function ($el) {
                     unset($el->proposal);
@@ -96,6 +95,21 @@ class BumdesApiController extends Controller
                     $project = Project::find($proj);
                     if ($project) array_push($projects, $project);
                 }
+
+                if (count($projects) == 0) {
+                    // USE RANDOM PRODUCTS
+                    $projects = Project::with(['bumdes:id,name,district_id', 'status'])
+                    ->whereDate('offer_start_date', '<=', Carbon::now())
+                    ->whereDate('offer_end_date', '>=', Carbon::now())
+                    ->inRandomOrder()
+                    ->take(5)
+                    ->get()
+                    ->map(function ($el) {
+                        unset($el->proposal);
+                        unset($el->images);
+                        return $el;
+                    });
+                }
             }
         } catch (Exception $err) {
             // USE RANDOM PRODUCTS
@@ -103,7 +117,7 @@ class BumdesApiController extends Controller
                 ->whereDate('offer_start_date', '<=', Carbon::now())
                 ->whereDate('offer_end_date', '>=', Carbon::now())
                 ->inRandomOrder()
-                ->take(10)
+                ->take(5)
                 ->get()
                 ->map(function ($el) {
                     unset($el->proposal);
@@ -117,7 +131,7 @@ class BumdesApiController extends Controller
         return Helper::sendJson(null, $projects);
     }
 
-    public function top_ten_investors(Request $request, int $id)
+    public function top_ten_investors(int $id)
     {
         $investors = Investment::whereHas('project', function ($query) use ($id) {
             return $query->where('bumdes_id', $id);
