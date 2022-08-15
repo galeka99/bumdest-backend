@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BumdesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
@@ -42,6 +43,15 @@ Route::middleware('auth')->group(function() {
       Route::get('/{id}', [BumdesController::class, 'edit']);
       Route::post('/add', [BumdesController::class, 'insert']);
       Route::put('/{id}', [BumdesController::class, 'update']);
+    });
+
+    Route::prefix('admin')->group(function() {
+      Route::get('/', [AdminController::class, 'list']);
+      Route::get('/add', [AdminController::class, 'add']);
+      Route::post('/add', [AdminController::class, 'insert']);
+      Route::get('/{id}', [AdminController::class, 'edit']);
+      Route::put('/{id}', [AdminController::class, 'update']);
+      Route::delete('/{id}', [AdminController::class, 'delete']);
     });
   });
 
