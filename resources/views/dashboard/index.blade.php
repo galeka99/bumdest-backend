@@ -2,7 +2,105 @@
 @section('title', 'Dashboard')
 @section('content')
   @if (auth()->user()->role_id === 1)
-  <div class="flex flex-col p-4"></div>
+  <div class="flex flex-col p-4">
+    <span class="text-xl text-blue-600 font-bold uppercase mb-3">Dashboard</span>
+    <div class="flex flex-row w-full gap-x-4 mb-3">
+      <div class="flex flex-col w-1/4 gap-y-4 bg-white rounded shadow p-3">
+        <span class="text-4xl font-bold text-blue-600 text-right">{{ Helper::formatNumber($bumdes_count) }}</span>
+        <span class="text-xs text-gray-600 uppercase">Total BUMDes</span>
+      </div>
+      <div class="flex flex-col w-1/4 gap-y-4 bg-white rounded shadow p-3">
+        <span class="text-4xl font-bold text-green-600 text-right">{{ Helper::formatNumber($project_count) }}</span>
+        <span class="text-xs text-gray-600 uppercase">Total Project</span>
+      </div>
+      <div class="flex flex-col w-1/4 gap-y-4 bg-white rounded shadow p-3">
+        <span class="text-4xl font-bold text-purple-600 text-right">{{ Helper::formatNumber($investor_count) }}</span>
+        <span class="text-xs text-gray-600 uppercase">Total Investor</span>
+      </div>
+      <div class="flex flex-col w-1/4 gap-y-4 bg-white rounded shadow p-3">
+        <span class="text-4xl font-bold text-pink-600 text-right">{{ Helper::formatNumber($invest_count) }}</span>
+        <span class="text-xs text-gray-600 uppercase">Total Investment</span>
+      </div>
+    </div>
+    <div class="flex flex-col w-full bg-white rounded shadow p-3 mb-3">
+      <span class="text-sm font-bold text-blue-400 mb-3">BUMDes</span>
+      <table class="table table-striped">
+        <thead class="font-bold">
+          <tr>
+            <td>#</td>
+            <td>BUMDes Name</td>
+            <td>Balance</td>
+            <td>State</td>
+            <td>City</td>
+            <td>Phone Number</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($bumdes as $item)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $item->name }}</td>
+              <td>{{ Helper::toRupiah($item->balance) }}</td>
+              <td>{{ $item->district->city->province->name }}</td>
+              <td>{{ $item->district->city->name }}</td>
+              <td>{{ $item->phone }}</td>
+              <td>
+                <a href="{{ url('bumdes/'.$item->id) }}" class="text-sm text-white bg-blue-600 no-underline hover:bg-blue-700 rounded py-1 px-3 w-full"><i class="mdi mdi-magnify-plus-outline mr-1"></i>Detail</button>
+              </td>
+            </tr>
+          @endforeach
+          @if (count($bumdes) == 0)
+          <tr>
+            <td colspan="8" class="text-center text-sm text-secondary uppercase">No BUMDes Yet</td>
+          </tr>
+          @endif
+        </tbody>
+      </table>
+      <div class="flex flex-row justify-end">
+        <a href="{{ url('/bumdes') }}" class="btn btn-sm btn-outline-primary">Show More <i class="mdi mdi-chevron-double-right"></i></a>
+      </div>
+    </div>
+    <div class="flex flex-col w-full bg-white rounded shadow p-3 mb-3">
+      <span class="text-sm font-bold text-blue-400 uppercase mb-3">Administrator</span>
+      <table class="table table-striped mb-3">
+        <thead class="font-bold">
+          <tr>
+            <td>#</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Phone</td>
+            <td>City</td>
+            <td>Province</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($admins as $item)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $item->name }}</td>
+              <td>{{ $item->email }}</td>
+              <td>{{ $item->phone }}</td>
+              <td>{{ $item->location['city_name'] }}</td>
+              <td>{{ $item->location['province_name'] }}</td>
+              <td>
+                <a href="{{ url('admin/'.$item->id) }}" class="text-sm text-white bg-blue-600 no-underline hover:bg-blue-700 rounded py-1 px-3 w-full"><i class="mdi mdi-magnify-plus-outline mr-1"></i>Detail</button>
+              </td>
+            </tr>
+          @endforeach
+          @if (count($admins) == 0)
+          <tr>
+            <td colspan="8" class="text-center text-sm text-secondary uppercase">No Admin Yet</td>
+          </tr>
+          @endif
+        </tbody>
+      </table>
+      <div class="flex flex-row justify-end">
+        <a href="{{ url('/admin') }}" class="btn btn-sm btn-outline-primary">Show More <i class="mdi mdi-chevron-double-right"></i></a>
+      </div>
+    </div>
+  </div>
   @elseif (auth()->user()->role_id === 2)
   <div class="flex flex-col p-4">
     <span class="text-xl text-blue-600 font-bold uppercase mb-3">Dashboard</span>

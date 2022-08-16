@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bumdes;
 use App\Models\Investment;
 use App\Models\Project;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -13,7 +15,15 @@ class DashboardController extends Controller
     public function index()
     {
         if (auth()->user()->role_id === 1) {
-            return view('dashboard.index');
+            $bumdes_count = Bumdes::count();
+            $investor_count = User::where('role_id', 3)->count();
+            $project_count = Project::count();
+            $invest_count = Investment::where('investment_status_id', 2)->count();
+
+            $bumdes = Bumdes::orderBy('created_at', 'DESC')->take(10)->get();
+            $admins = User::where('role_id', 1)->orderBy('created_at', 'DESC')->take(10)->get();
+            
+            return view('dashboard.index', compact('bumdes_count', 'investor_count', 'project_count', 'invest_count', 'bumdes', 'admins'));
         } else {
             $current_invest = Investment::whereHas('project', function ($query) {
                 return $query
