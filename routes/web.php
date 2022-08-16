@@ -53,6 +53,15 @@ Route::middleware('auth')->group(function() {
       Route::put('/{id}', [AdminController::class, 'update']);
       Route::delete('/{id}', [AdminController::class, 'delete']);
     });
+
+    Route::prefix('user')->group(function() {
+      Route::get('/', [UserController::class, 'list']);
+      Route::get('/add', [UserController::class, 'add']);
+      Route::post('/add', [UserController::class, 'insert']);
+      Route::get('/{id}', [UserController::class, 'edit']);
+      Route::put('/{id}', [UserController::class, 'update']);
+      Route::delete('/{id}', [UserController::class, 'delete']);
+    });
   });
 
   // ROUTE FOR BUMDES ROLE

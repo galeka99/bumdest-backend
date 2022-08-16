@@ -21,9 +21,10 @@ class DashboardController extends Controller
             $invest_count = Investment::where('investment_status_id', 2)->count();
 
             $bumdes = Bumdes::orderBy('created_at', 'DESC')->take(10)->get();
+            $users = User::whereBetween('role_id', [2, 3])->orderBy('created_at', 'DESC')->take(10)->get();
             $admins = User::where('role_id', 1)->orderBy('created_at', 'DESC')->take(10)->get();
             
-            return view('dashboard.index', compact('bumdes_count', 'investor_count', 'project_count', 'invest_count', 'bumdes', 'admins'));
+            return view('dashboard.index', compact('bumdes_count', 'investor_count', 'project_count', 'invest_count', 'bumdes', 'users', 'admins'));
         } else {
             $current_invest = Investment::whereHas('project', function ($query) {
                 return $query

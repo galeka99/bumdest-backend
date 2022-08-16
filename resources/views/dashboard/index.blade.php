@@ -62,6 +62,51 @@
       </div>
     </div>
     <div class="flex flex-col w-full bg-white rounded shadow p-3 mb-3">
+      <span class="text-sm font-bold text-blue-400 uppercase mb-3">Users</span>
+      <table class="table table-striped">
+        <thead class="font-bold">
+          <tr>
+            <td>#</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Phone</td>
+            <td>Role</td>
+            <td>Status</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($users as $item)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $item->name }}</td>
+              <td>{{ $item->email }}</td>
+              <td>{{ $item->phone }}</td>
+              <td>{{ $item->role->label }}</td>
+              <td>
+                @if ($item->user_status->id === 1)
+                <span class="text-xs bg-green-600 text-white uppercase rounded px-2 py-1">{{ $item->user_status->label }}</span>
+                @elseif ($item->user_status->id === 2)
+                <span class="text-xs bg-red-600 text-white uppercase rounded px-2 py-1">{{ $item->user_status->label }}</span>
+                @endif
+              </td>
+              <td>
+                <a href="{{ url('user/'.$item->id) }}" class="text-sm text-white bg-blue-600 no-underline hover:bg-blue-700 rounded py-1 px-3 w-full"><i class="mdi mdi-magnify-plus-outline mr-1"></i>Detail</button>
+              </td>
+            </tr>
+          @endforeach
+          @if (count($users) == 0)
+          <tr>
+            <td colspan="8" class="text-center text-sm text-secondary uppercase">No Users Yet</td>
+          </tr>
+          @endif
+        </tbody>
+      </table>
+      <div class="flex flex-row justify-end">
+        <a href="{{ url('/bumdes') }}" class="btn btn-sm btn-outline-primary">Show More <i class="mdi mdi-chevron-double-right"></i></a>
+      </div>
+    </div>
+    <div class="flex flex-col w-full bg-white rounded shadow p-3 mb-3">
       <span class="text-sm font-bold text-blue-400 uppercase mb-3">Administrator</span>
       <table class="table table-striped mb-3">
         <thead class="font-bold">

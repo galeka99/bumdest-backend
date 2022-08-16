@@ -19,6 +19,11 @@
         'url' => 'admin'
       ],
       [
+        'title' => 'Users',
+        'icon' => 'account-group',
+        'url' => 'user'
+      ],
+      [
         'title' => 'Logout',
         'icon' => 'exit-to-app',
         'url' => 'logout',
