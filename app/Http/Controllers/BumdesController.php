@@ -18,7 +18,8 @@ class BumdesController extends Controller
     public function list(Request $request)
     {
         $limit = intval($request->input('limit', '25'));
-        $bumdes = Bumdes::orderBy('created_at', 'DESC')->paginate($limit);
+        $q = $request->input('q', '');
+        $bumdes = Bumdes::where('name', 'LIKE', "%$q%")->orderBy('created_at', 'DESC')->paginate($limit);
 
         return view('dashboard.bumdes.index', compact('bumdes'));
     }

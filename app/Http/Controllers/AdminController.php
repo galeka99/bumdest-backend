@@ -15,7 +15,8 @@ class AdminController extends Controller
     public function list(Request $request)
     {
         $limit = intval($request->input('limit', '25'));
-        $admins = User::where('role_id', 1)->orderBy('created_at', 'DESC')->paginate($limit);
+        $q = $request->input('q', '');
+        $admins = User::where('role_id', 1)->where('email', 'LIKE', "%$q%")->orderBy('created_at', 'DESC')->paginate($limit);
 
         return view('dashboard.admins.index', compact('admins'));
     }

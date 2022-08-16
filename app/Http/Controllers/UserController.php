@@ -111,7 +111,8 @@ class UserController extends Controller
     public function list(Request $request)
     {
         $limit = intval($request->input('limit', '25'));
-        $users = User::whereBetween('role_id', [2, 3])->orderBy('created_at', 'DESC')->paginate($limit);
+        $q = $request->input('q', '');
+        $users = User::whereBetween('role_id', [2, 3])->where('email', 'LIKE', "%$q%")->orderBy('created_at', 'DESC')->paginate($limit);
 
         return view('dashboard.users.index', compact('users'));
     }

@@ -2,7 +2,17 @@
 @section('title', 'BUMDes')
 @section('content')
 <div class="flex flex-col p-4">
-  <span class="text-xl text-blue-600 font-bold uppercase mb-3">BUMDes</span>
+  <div class="flex flex-row justify-between items-center mb-3">
+    <span class="text-xl text-blue-600 font-bold uppercase">BUMDes</span>
+    <form action="{{ request()->url() }}" method="GET">
+      <div class="form-group">
+        <div class="input-group">
+          <i class="input-group-text mdi mdi-magnify"></i>
+          <input type="text" id="search" name="q" placeholder="Search for BUMDes.." class="form-control form-control-sm" value="{{ request()->input('q') }}">
+        </div>
+      </div>
+    </form>
+  </div>
   @include('component.alert')
   <div class="flex flex-col bg-white w-full rounded-lg shadow p-3 mb-3">
     <table class="table table-striped">
