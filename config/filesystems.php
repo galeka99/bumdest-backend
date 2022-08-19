@@ -53,6 +53,14 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
+        'idcloudhost' => [
+            'driver' => 's3',
+            'key' => env('IDC_SPACES_KEY'),
+            'secret' => env('IDC_SPACES_SECRET'),
+            'endpoint' => env('IDC_SPACES_ENDPOINT'),
+            'region' => env('IDC_SPACES_REGION'),
+            'bucket' => env('IDC_SPACES_BUCKET'),
+        ],
     ],
 
     /*

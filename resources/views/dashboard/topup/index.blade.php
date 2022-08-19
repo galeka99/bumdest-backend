@@ -62,6 +62,7 @@
         <div class="modal-body bg-blue-50">
           <div class="form-group mb-3">
             <label for="method" class="text-gray-600 mb-1">Payment Method</label>
+            <span class="text-red-600">*</span>
             <select id="method" name="method" class="form-select" required>
               <option disabled selected>-- SELECT PAYMENT METHOD --</option>
               @foreach ($methods as $method)
@@ -71,6 +72,7 @@
           </div>
           <div class="form-group mb-3">
             <label for="amount" class="text-gray-600 mb-1">Top Up Amount</label>
+            <span class="text-red-600">*</span>
             <div class="input-group">
               <span class="input-group-text">Rp </span>
               <input type="number" name="amount" class="form-control" value="0" required>

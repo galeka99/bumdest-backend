@@ -10,12 +10,12 @@ class Helper
 {
   public static function uploadFile($path, $file)
   {
-    return Storage::put($path, $file);
+    return Storage::disk('idcloudhost')->put($path, $file, 'public');
   }
 
   public static function deleteFile($path)
   {
-    return Storage::delete($path);
+    return Storage::disk('idcloudhost')->delete($path);
   }
 
   public static function toRupiah(int $num)
@@ -23,10 +23,15 @@ class Helper
     return 'Rp ' . number_format($num, 0, ',', '.');
   }
 
+  public static function formatNumber(int $num)
+  {
+    return number_format($num, 0, ',', '.');
+  }
+
   public static function fileUrl($path)
   {
-    $url = Str::substr($path, 7);
-    return URL::to('public/' . $url);
+    $s3_url = 'https://is3.cloudhost.id/bumdest/';
+    return $s3_url.$path;
   }
 
   public static function paginate($paginator, $hidden_fields = [])
@@ -41,5 +46,14 @@ class Helper
       'data' => $paginator->makeHidden($hidden_fields),
     ];
     return $result;
+  }
+
+  public static function sendJson($error_code = null, $data = [], $status = 200)
+  {
+    return response()->json([
+      'status' => $status,
+      'error' => $status == 200 ? null : ($error_code ?: 'INVALID_REQUEST'),
+      'data' => $data,
+    ], $status);
   }
 }

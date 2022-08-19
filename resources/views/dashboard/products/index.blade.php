@@ -23,8 +23,8 @@
             <tr>
               <td>{{ $loop->iteration }}</td>
               <td>{{ $product->title }}</td>
-              <td>{{ date('d/m/Y', strtotime($product->offer_start_date)) }}</td>
-              <td>{{ date('d/m/Y', strtotime($product->offer_end_date)) }}</td>
+              <td>{{ date('m/d/Y', strtotime($product->offer_start_date)) }}</td>
+              <td>{{ date('m/d/Y', strtotime($product->offer_end_date)) }}</td>
               <td>{{ Helper::toRupiah($product->current_invest) }}</td>
               <td>{{ Helper::toRupiah($product->invest_target) }}</td>
               <td>

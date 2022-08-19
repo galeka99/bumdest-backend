@@ -1,36 +1,73 @@
 @php
-  $menus = [
-    [
-      'title' => 'Dashboard',
-      'icon' => 'view-dashboard',
-      'url' => 'dashboard',
-    ],
-    [
-      'title' => 'Product',
-      'icon' => 'basket',
-      'url' => 'products',
-    ],
-    [
-      'title' => 'Investment',
-      'icon' => 'chart-bar',
-      'url' => 'investments',
-    ],
-    [
-      'title' => 'Investor',
-      'icon' => 'account-group',
-      'url' => 'investors',
-    ],
-    [
-      'title' => 'Profile',
-      'icon' => 'account-circle',
-      'url' => 'profile',
-    ],
-    [
-      'title' => 'Logout',
-      'icon' => 'exit-to-app',
-      'url' => 'logout',
-    ],
-  ];
+  $menus = [];
+
+  if (auth()->user()->role_id === 1) {
+    $menus = [
+      [
+        'title' => 'Dashboard',
+        'icon' => 'view-dashboard',
+        'url' => 'dashboard'
+      ],
+      [
+        'title' => 'BUMDes',
+        'icon' => 'office-building',
+        'url' => 'bumdes'
+      ],
+      [
+        'title' => 'Administrators',
+        'icon' => 'account-group',
+        'url' => 'admin'
+      ],
+      [
+        'title' => 'Users',
+        'icon' => 'account-group',
+        'url' => 'user'
+      ],
+      [
+        'title' => 'Logout',
+        'icon' => 'exit-to-app',
+        'url' => 'logout',
+      ],
+    ];
+  } else {
+    $menus = [
+      [
+        'title' => 'Dashboard',
+        'icon' => 'view-dashboard',
+        'url' => 'dashboard',
+      ],
+      [
+        'title' => 'Product',
+        'icon' => 'basket',
+        'url' => 'products',
+      ],
+      [
+        'title' => 'Investment',
+        'icon' => 'chart-bar',
+        'url' => 'investments',
+      ],
+      [
+        'title' => 'Investor',
+        'icon' => 'account-group',
+        'url' => 'investors',
+      ],
+      [
+        'title' => 'Monthly Reports',
+        'icon' => 'chart-areaspline',
+        'url' => 'reports',
+      ],
+      [
+        'title' => 'Profile',
+        'icon' => 'account-circle',
+        'url' => 'profile',
+      ],
+      [
+        'title' => 'Logout',
+        'icon' => 'exit-to-app',
+        'url' => 'logout',
+      ],
+    ];
+  }
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +86,7 @@
       <span class="text-2xl font-bold text-blue-600 uppercase">Bumdest</span>
       <span class="text-sm text-gray-500">{{ auth()->user()->bumdes_id == null ? auth()->user()->name : auth()->user()->bumdes->name }}</span>
     </div>
+    @if (auth()->user()->role_id === 2)
     <div class="flex flex-row justify-between items-center bg-blue-600 text-white w-full px-3 py-2 mb-3">
       <div class="flex flex-col">
         <span class="text-xs uppercase">Balance</span>
@@ -59,6 +97,7 @@
         <a href="{{ url('/withdraw') }}" title="Withdraw Balance" class="bg-sky-400 hover:bg-sky-500 text-white rounded px-2 py-1"><i class="mdi mdi-bank-check"></i></a>
       </div>
     </div>
+    @endif
     <div id="menus" class="flex flex-col w-full h-full px-3 gap-y-2">
       @foreach ($menus as $menu)
         <a href="{{ url($menu['url']) }}" class="w-full py-2 px-3 no-underline hover:text-white hover:bg-blue-600 rounded-lg @if(Str::startsWith(Request::path(), $menu['url'])) bg-blue-700 text-white @else text-blue-600 @endif">

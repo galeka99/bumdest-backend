@@ -9,7 +9,7 @@ class UserStatusSeeder extends Seeder
 {
     public function run()
     {
-        UserStatus::create(['id' => 1, 'label' => 'Aktif']);
-        UserStatus::create(['id' => 2, 'label' => 'Nonaktif']);
+        UserStatus::create(['id' => 1, 'label' => 'Active']);
+        UserStatus::create(['id' => 2, 'label' => 'Nonactive']);
     }
 }

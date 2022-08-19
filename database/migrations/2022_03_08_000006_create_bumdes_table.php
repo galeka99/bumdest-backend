@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('bumdes', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->string('name');
             $table->string('phone');
             $table->unsignedBigInteger('balance')->default(0);
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->longText('address');
             $table->string('postal_code');
             $table->longText('description');
+            $table->longText('maps_url')->nullable();
             $table->timestamps();
         });
     }

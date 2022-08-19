@@ -9,9 +9,9 @@ class Bumdes extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'balance', 'district_id', 'address', 'postal_code', 'description'];
-    protected $hidden = ['district_id'];
-    protected $appends = ['location'];
+    protected $fillable = ['code', 'name', 'phone', 'balance', 'district_id', 'address', 'postal_code', 'description', 'maps_url'];
+    protected $hidden = ['code', 'balance', 'district_id'];
+    protected $appends = ['location', 'vote_count', 'vote_average'];
 
     public function getLocationAttribute()
     {
@@ -24,6 +24,24 @@ class Bumdes extends Model
             'province_id' => $district->city->province->id,
             'province_name' => $district->city->province->name,
         ];
+    }
+
+    public function getVoteCountAttribute()
+    {
+        $votes = Rating::whereHas('project', function ($q) {
+            return $q->where('bumdes_id', $this->id);
+        })->count();
+
+        return $votes;
+    }
+
+    public function getVoteAverageAttribute()
+    {
+        $avg = Rating::whereHas('project', function ($q) {
+            return $q->where('bumdes_id', $this->id);
+        })->avg('value');
+        
+        return floatval($avg);
     }
 
     public function users()

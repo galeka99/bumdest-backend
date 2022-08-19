@@ -15,11 +15,7 @@ class DepositApiController extends Controller
     public function payment_method()
     {
         $methods = PaymentMethod::all();
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => $methods,
-        ]);
+        return Helper::sendJson(null, $methods, 200);
     }
 
     public function request(Request $request)
@@ -29,32 +25,16 @@ class DepositApiController extends Controller
             'amount' => 'required|numeric',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'error' => 'INVALID_REQUEST',
-                'data' => $validator->errors(),
-            ], 400);
-        }
+        if ($validator->fails()) return Helper::sendJson('INVALID_REQUEST', $validator->errors(), 400);
 
         $method = PaymentMethod::find($request->post('method'));
-        if (!$method)
-            return response()->json([
-                'status' => 404,
-                'error' => 'PAYMENT_METHOD_NOT_FOUND',
-                'data' => null,
-            ], 404);
+        if (!$method) return Helper::sendJson('PAYMENT_METHOD_NOT_FOUND', null, 404);
         
         // ADD DEPOSIT RECORD
         $payment_code = strtoupper(Str::random(16));
         $amount = intval($request->post('amount', '0'));
 
-        if ($amount < 0)
-            return response()->json([
-                'status' => 400,
-                'error' => 'INVALID_AMOUNT',
-                'data' => null,
-            ], 400);
+        if ($amount < 0) return Helper::sendJson('INVALID_AMOUNT', null, 400);
 
         Deposit::create([
             'amount' => $amount,
@@ -69,11 +49,7 @@ class DepositApiController extends Controller
         $user->balance += $amount;
         $user->save();
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => null,
-        ]);
+        return Helper::sendJson(null, null);
     }
 
     public function history(Request $request)
@@ -84,11 +60,7 @@ class DepositApiController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate($limit);
         
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => Helper::paginate($history),
-        ]);
+        return Helper::sendJson(null, Helper::paginate($history));
     }
 
     public function detail(Request $request, int $id)
@@ -97,17 +69,8 @@ class DepositApiController extends Controller
             ->where('user_id', $request->user->id)
             ->with(['method', 'status'])
             ->first();
-        if (!$deposit)
-            return response()->json([
-                'status' => 404,
-                'error' => 'DEPOSIT_NOT_FOUND',
-                'data' => null,
-            ], 404);
+        if (!$deposit) return Helper::sendJson('DEPOSIT_NOT_FOUND', null, 404);
 
-        return response()->json([
-            'status' => 200,
-            'error' => null,
-            'data' => $deposit,
-        ]);
+        return Helper::sendJson(null, $deposit, 200);
     }
 }

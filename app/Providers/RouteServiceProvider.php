@@ -36,6 +36,13 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        if (env('APP_ENV') === 'production') {
+            // Force URL & HTTPS
+            $url = $this->app['url'];
+            $url->forceRootUrl(config('app.url'));
+            $url->forceScheme('https');
+        }
     }
 
     /**
@@ -46,7 +53,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+            return Limit::perMinute(1000)->by($request->user()?->id ?: $request->ip());
         });
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Helper;
+use App\Http\Helper;{}
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,17 +13,12 @@ class Project extends Model
     protected $fillable = ['title', 'description', 'invest_target', 'offer_start_date', 'offer_end_date', 'proposal_path', 'bumdes_id', 'status_id'];
     protected $hidden = ['proposal_path', 'bumdes_id', 'status_id'];
     protected $with = ['images', 'bumdes', 'status'];
-    protected $appends = ['current_invest', 'proposal'];
+    protected $appends = ['current_invest', 'proposal', 'vote_average', 'vote_count'];
 
     public function getCurrentInvestAttribute()
     {
-        $investments = $this->hasMany(Investment::class, 'project_id', 'id')->getResults();
-        $total = 0;
-        foreach ($investments as $investment) {
-            $total += $investment->amount;
-        }
-
-        return $total;
+        $current = $this->hasMany(Investment::class, 'project_id', 'id')->where('investment_status_id', 2)->sum('amount');
+        return $current;
     }
 
     public function getProposalAttribute()
@@ -33,6 +28,17 @@ class Project extends Model
         } else {
             return null;
         }
+    }
+
+    public function getVoteAverageAttribute()
+    {
+        $avg = $this->hasMany(Rating::class, 'project_id', 'id')->avg('value');
+        return floatval($avg);
+    }
+
+    public function getVoteCountAttribute()
+    {
+        return $this->hasMany(Rating::class, 'project_id', 'id')->count();
     }
 
     public function images()
